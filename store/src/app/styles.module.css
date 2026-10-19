@@ -1,0 +1,7 @@
+.cardBack{
+    height: 10%;
+    width: 20%;
+    background-color: white;
+    border-radius: 5px;
+    color: black;
+}

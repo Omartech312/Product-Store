@@ -1,10 +1,10 @@
 import Image from "next/image";
-import {Card} from "./components.tsx"
+import {Card} from "./components"
 
 export default function Home() {
   return (
     <>
-      <Card></Card>
+      <Card name="Soup" description="Maruchan" price={15} image="Nya"></Card>
     </>
   );
 }
