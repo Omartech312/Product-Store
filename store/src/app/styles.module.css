@@ -4,4 +4,11 @@
     background-color: white;
     border-radius: 5px;
     color: black;
+    box-shadow: 2px 2px 5px skyblue;
+    text-align: center;
+}
+
+.cardImage{
+    width: 90%;
+    align-self: center;
 }
