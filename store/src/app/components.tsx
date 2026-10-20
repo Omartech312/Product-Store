@@ -1,14 +1,8 @@
 import styles from "./styles.module.css"
+import { Product } from "./products"
 
 
-type cardProp = {
-    name: string;
-    price: number;
-    description: string;
-    image: string;
-}
-
-export function Card(prop: cardProp){
+export function Card(prop: Product){
     //console.log("CSS Module:", styles);
     //console.log("cardBack:", styles.cardBack);
 
@@ -20,7 +14,7 @@ export function Card(prop: cardProp){
             <div>
                 <p>{prop.description}</p>
             </div>
-            <p>{prop.price}</p>
+            <p>{prop.priceCents}</p>
         </div>
     );
 }
