@@ -9,6 +9,24 @@ export function Card(prop: Product){
     //console.log("CSS Module:", styles);
     //console.log("cardBack:", styles.cardBack);
 
+    function decrement(){
+        if(counter > 0){
+            setCounter(preCounter => preCounter - 1);
+            console.log(`Decrement: ${counter}`);
+        }
+    }
+
+    function increment(){
+        setCounter(prevCounter => prevCounter + 1);
+        console.log(`Increment: ${counter}`)
+    }
+    
+    function modify(newVal: HTMLInputElement){
+        if(Number(newVal.value) >= 0){
+            setCounter(Number(newVal.value));
+            console.log(`Change: ${counter}`);
+        }
+    }
 
     return(
         <div className={styles.cardBack}>
@@ -19,10 +37,11 @@ export function Card(prop: Product){
             </div>
             <p>${prop.priceCents / 100}</p>
             <div>
-                <button className="">-</button>
-                <input className={`${styles.cardInput}`} placeholder="0"></input>
-                <button>+</button>
+                <button onClick={decrement} className="">-</button>
+                <input value={counter} onChange={(event) => modify(event.currentTarget)} className={`${styles.cardInput}`} placeholder="0"></input>
+                <button onClick={increment}>+</button>
             </div>
+            <button>Add to Card</button>
         </div>
     );
 }
