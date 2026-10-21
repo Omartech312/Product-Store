@@ -1,6 +1,6 @@
 "use client";
 import styles from "./styles.module.css"
-import {Product} from "./products"
+import {Product, initialProducts} from "./products"
 import { useState, useRef } from 'react';
 
 
@@ -61,4 +61,23 @@ export function NewProductsArea(){
             <input type="file" accept="image/*"></input><br></br>
         </div>
     )
+}
+
+export function ProductManagement(){
+    const [products, setProducts] = useState<Product[]>(initialProducts);
+    console.log(products);    
+    const displayProducts = products.map((prod) =>(
+    <Card id={prod.id} key={prod.id} name={prod.name} priceCents={prod.priceCents} description={prod.description} image={prod.image} ></Card>
+    ));
+
+    return(
+        <>
+        <h2 className={styles.prodSecHead}>Add New Products:</h2>
+        <NewProductsArea />
+        <h2 className={styles.prodSecHead}>Products:</h2>
+        <div className={styles.productDiv}>
+        {displayProducts}
+        </div>
+        </>
+    );
 }
