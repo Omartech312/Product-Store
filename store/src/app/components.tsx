@@ -1,7 +1,7 @@
 "use client";
 import styles from "./styles.module.css"
 import {Product} from "./products"
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 
 
 export function Card(prop: Product){
@@ -41,7 +41,24 @@ export function Card(prop: Product){
                 <input value={counter} onChange={(event) => modify(event.currentTarget)} className={`${styles.cardInput}`} placeholder="0"></input>
                 <button onClick={increment}>+</button>
             </div>
-            <button>Add to Card</button>
+            <button >Add to Card</button>
         </div>
     );
+}
+
+export function NewProductsArea(){
+    const [name, setName] = useState("");
+    const [price, setPrice] = useState(0);
+    const [description, setDescription] = useState("");
+    const [image, setImage] = useState("");
+    const nextid = useRef(2);
+
+    return(
+        <div className={styles.newProdInputs}>
+            <input type="text" placeholder="name"></input><br></br>
+            <input type="number" placeholder="price"></input><br></br>
+            <input type="description" placeholder="description"></input><br></br>
+            <input type="file" accept="image/*"></input><br></br>
+        </div>
+    )
 }
