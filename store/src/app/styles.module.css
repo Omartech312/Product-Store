@@ -7,14 +7,25 @@
 }
 
 .cardImage{
-    width: 90%;
+    padding: 10px;
     align-self: center;
 }
 
 .productDiv{
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 24px;
     padding: 15px;
     border: 1px solid white;
+}
+
+.prodSecHead{
+    text-align: center;
+    font-weight: bolder;
+    font-size: 1.8em;
+}
+
+.prodHeader{
+    font-weight: bold;
+    color: rgb(22, 178, 240);
 }

@@ -1,5 +1,5 @@
 import styles from "./styles.module.css"
-import { Product } from "./products"
+import {Product} from "./products"
 
 
 export function Card(prop: Product){
@@ -10,11 +10,11 @@ export function Card(prop: Product){
     return(
         <div className={styles.cardBack}>
             <img className={styles.cardImage} src={prop.image}></img>
-            <p className="Card-Product-Name">{prop.name}</p>
+            <p className={styles.prodHeader}>{prop.name}</p>
             <div>
                 <p>{prop.description}</p>
             </div>
-            <p>{prop.priceCents}</p>
+            <p>${prop.priceCents / 100}</p>
         </div>
     );
 }

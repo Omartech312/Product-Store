@@ -10,10 +10,10 @@ export default function Home() {
   ));
   return (
     <>
-    <h2>Products:</h2>
-    <div className={styles.productDiv}>
-      {displayProducts}
-    </div>
+      <h2 className={styles.prodSecHead}>Products:</h2>
+      <div className={styles.productDiv}>
+        {displayProducts}
+      </div>
     </>
   );
 }
