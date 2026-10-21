@@ -1,6 +1,7 @@
 import Image from "next/image";
 import {Card} from "./components"
 import {products} from "./products"
+import styles from "./styles.module.css"
 
 
 export default function Home() {
@@ -9,7 +10,10 @@ export default function Home() {
   ));
   return (
     <>
+    <h2>Products:</h2>
+    <div className={styles.productDiv}>
       {displayProducts}
+    </div>
     </>
   );
 }
