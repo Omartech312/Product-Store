@@ -29,3 +29,8 @@
     font-weight: bold;
     color: rgb(22, 178, 240);
 }
+
+.cardInput{
+    text-align: center;
+    width: 50%;
+}
