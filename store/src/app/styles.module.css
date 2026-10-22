@@ -1,9 +1,11 @@
+
 .cardBack{
     background-color: white;
     border-radius: 5px;
     color: black;
     box-shadow: 2px 2px 5px skyblue;
     text-align: center;
+    position: relative;
 }
 
 .cardImage{
@@ -55,4 +57,16 @@
     border: 2px double skyblue;
     border-radius: 10px;
     padding: 5px;
+}
+
+.cardRemoveButton{
+    color: red;
+    position: absolute;
+    top: 1px;
+    right: 4px;
+    cursor: pointer;
+}
+
+.cardButtons{
+    cursor: pointer;
 }

@@ -9,7 +9,11 @@ type NewProductsProps = {
     onAddProduct: (details: NewProductDetails) => void;
 };
 
-export function Card(prop: Product){
+type CardProps = Product & {
+    onRemoveProduct: (id: number) => void;
+};
+
+export function Card(prop: CardProps){
     const [counter, setCounter] = useState(0);
     //console.log("CSS Module:", styles);
     //console.log("cardBack:", styles.cardBack);
@@ -35,6 +39,11 @@ export function Card(prop: Product){
 
     return(
         <div className={styles.cardBack}>
+            <button
+                type="button" className={styles.cardRemoveButton}
+                onClick={() => prop.onRemoveProduct(prop.id)}
+                aria-label={`Remove ${prop.name}`}
+            >X</button>
             <img className={styles.cardImage} src={prop.image}></img>
             <p className={styles.prodHeader}>{prop.name}</p>
             <div>
@@ -42,9 +51,9 @@ export function Card(prop: Product){
             </div>
             <p>${prop.priceCents / 100}</p>
             <div>
-                <button onClick={decrement} className="">-</button>
+                <button onClick={decrement} className={styles.cardButtons}>-</button>
                 <input value={counter} onChange={(event) => modify(event.currentTarget)} className={`${styles.cardInput}`} placeholder="0"></input>
-                <button onClick={increment}>+</button>
+                <button onClick={increment} className={styles.cardButtons}>+</button>
             </div>
             <button >Add to Card</button>
         </div>
@@ -87,18 +96,22 @@ export function NewProductsArea({onAddProduct}: NewProductsProps){
 
 export function ProductManagement(){
     const [products, setProducts] = useState<Product[]>(initialProducts);
-    //console.log(products);    
+    
     const displayProducts = products.map((prod) =>(
-    <Card id={prod.id} key={prod.id} name={prod.name} priceCents={prod.priceCents} description={prod.description} image={prod.image} ></Card>
+    <Card id={prod.id} key={prod.id} name={prod.name} priceCents={prod.priceCents} description={prod.description} image={prod.image} onRemoveProduct={removeProduct} ></Card>
     ));
 
     const nextId = useRef(Math.max(0, ...initialProducts.map((product) => product.id)) + 1);
 
-    function addProduct(details: NewProductDetails) {
-    const product: Product = { ...details, id: nextId.current++, };
+    function addProduct(details: NewProductDetails){
+        const product: Product = { ...details, id: nextId.current++, };
+        setProducts((previous) => [...previous, product]);
+    }
 
-    setProducts((previous) => [...previous, product]);
-}
+    function removeProduct(id: number){
+        setProducts(prevProducts => prevProducts.filter((cur) => cur.id != id))
+    }
+
 
     return(
         <>
