@@ -3,6 +3,11 @@ import styles from "./styles.module.css"
 import {Product, initialProducts} from "./products"
 import { useState, useRef } from 'react';
 
+type NewProductDetails = Omit<Product, "id">;
+
+type NewProductsProps = {
+    onAddProduct: (details: NewProductDetails) => void;
+};
 
 export function Card(prop: Product){
     const [counter, setCounter] = useState(0);
@@ -46,37 +51,62 @@ export function Card(prop: Product){
     );
 }
 
-export function NewProductsArea(){
+export function NewProductsArea({onAddProduct}: NewProductsProps){
     const [name, setName] = useState("");
     const [price, setPrice] = useState(0);
     const [description, setDescription] = useState("");
     const [image, setImage] = useState("");
-    const nextid = useRef(2);
 
     return(
-        <div className={styles.newProdInputs}>
-            <input type="text" placeholder="name"></input><br></br>
-            <input type="number" placeholder="price"></input><br></br>
-            <input type="description" placeholder="description"></input><br></br>
-            <input type="file" accept="image/*"></input><br></br>
+        <div className={styles.newProdInputsArea} >
+            <form
+            onSubmit={ (event) => {
+                event.preventDefault();
+
+                if(!name.trim() || !description.trim() || !image.trim() ||
+                    !Number.isFinite(price) || price < 0 ){
+                    return;
+                }
+
+                onAddProduct({
+                    name:name.trim(),
+                    priceCents: Math.round(price * 100),
+                    description: description.trim(),
+                    image: image.trim(),
+                });
+            }}>
+            <input value={name} className={styles.newProdInputs} type="text" placeholder="name" onChange={(event) => setName(event.currentTarget.value)}></input><br></br>
+            <input value={price} className={styles.newProdInputs} type="number" placeholder="price" onChange={(event) => setPrice(Number(event.currentTarget.value))}></input><br></br>
+            <input value={description} className={styles.newProdInputs} type="description" placeholder="description" onChange={(event) => setDescription(event.currentTarget.value)}></input><br></br>
+            <input value={image} className={styles.newProdInputs} type="file" accept="image/*" onChange={(event) => setImage(event.currentTarget.value)}></input><br></br>
+            <button className={`${styles.newProdButton}`} type="submit">Submit</button>
+            </form>
         </div>
     )
 }
 
 export function ProductManagement(){
     const [products, setProducts] = useState<Product[]>(initialProducts);
-    console.log(products);    
+    //console.log(products);    
     const displayProducts = products.map((prod) =>(
     <Card id={prod.id} key={prod.id} name={prod.name} priceCents={prod.priceCents} description={prod.description} image={prod.image} ></Card>
     ));
 
+    const nextId = useRef(Math.max(0, ...initialProducts.map((product) => product.id)) + 1);
+
+    function addProduct(details: NewProductDetails) {
+    const product: Product = { ...details, id: nextId.current++, };
+
+    setProducts((previous) => [...previous, product]);
+}
+
     return(
         <>
         <h2 className={styles.prodSecHead}>Add New Products:</h2>
-        <NewProductsArea />
+        <NewProductsArea onAddProduct={addProduct}/>
         <h2 className={styles.prodSecHead}>Products:</h2>
         <div className={styles.productDiv}>
-        {displayProducts}
+            {displayProducts}
         </div>
         </>
     );
