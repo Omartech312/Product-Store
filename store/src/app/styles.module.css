@@ -67,9 +67,20 @@
     cursor: pointer;
 }
 
-.cardButtons{
+.cardButton button{
     cursor: pointer;
+    border-radius: 10px;
+    width: 20%;
 }
+
+.cardButtonsPlus:hover{
+    background-color: lightgreen;
+}
+
+.cardButtonsMinus:hover{
+    background-color: rgb(238, 144, 144);
+}
+
 
 .pageHeader{
     width: 100vw;
@@ -81,9 +92,18 @@
 
 .storeImage{
     position: absolute;
+    height: 60%;
+    top: 10%;
+    left: 2%;
+    border-radius: 200px;
 }
 
 .storeName{
     text-align: center;
     font-size: 3.2em;
+    text-shadow: 2px 2px black;
+}
+
+.pageHeaderNav{
+
 }

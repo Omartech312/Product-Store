@@ -50,10 +50,10 @@ export function Card(prop: CardProps){
                 <p>{prop.description}</p>
             </div>
             <p>${prop.priceCents / 100}</p>
-            <div>
-                <button onClick={decrement} className={styles.cardButtons}>-</button>
+            <div className={styles.cardButton}>
+                <button onClick={decrement} className={styles.cardButtonsMinus}> - </button>
                 <input value={counter} onChange={(event) => modify(event.currentTarget)} className={`${styles.cardInput}`} placeholder="0"></input>
-                <button onClick={increment} className={styles.cardButtons}>+</button>
+                <button onClick={increment} className={styles.cardButtonsPlus}> + </button>
             </div>
             <button >Add to Card</button>
         </div>
@@ -128,8 +128,9 @@ export function ProductManagement(){
 export function Header(){
     return(
         <div className={styles.pageHeader}>
-            <img className={styles.storeImage} src=''></img>
+            <img className={styles.storeImage} src='./images/missing.avif'></img>
             <h1 className={styles.storeName}>Store Name</h1>
+            <div className={styles.pageHeaderNav}></div>
         </div>
     );
 }
