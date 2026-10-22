@@ -93,7 +93,7 @@
 .storeImage{
     position: absolute;
     height: 60%;
-    top: 10%;
+    top: 3.5%;
     left: 2%;
     border-radius: 200px;
 }
@@ -105,5 +105,12 @@
 }
 
 .pageHeaderNav{
+    height: 30%;
+    background-color: rgb(247, 246, 246);
+}
 
+.navButtons{
+    color: black;
+    padding: 5px;
+    text-shadow: 1px 1px skyblue;
 }

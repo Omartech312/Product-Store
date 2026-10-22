@@ -130,7 +130,10 @@ export function Header(){
         <div className={styles.pageHeader}>
             <img className={styles.storeImage} src='./images/missing.avif'></img>
             <h1 className={styles.storeName}>Store Name</h1>
-            <div className={styles.pageHeaderNav}></div>
+            <div className={styles.pageHeaderNav}>
+                <button className={styles.navButtons}>List of Products</button>
+                <button className={styles.navButtons}>Add new Product</button>
+            </div>
         </div>
     );
 }
