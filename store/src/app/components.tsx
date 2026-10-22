@@ -124,3 +124,12 @@ export function ProductManagement(){
         </>
     );
 }
+
+export function Header(){
+    return(
+        <div className={styles.pageHeader}>
+            <img className={styles.storeImage} src=''></img>
+            <h1 className={styles.storeName}>Store Name</h1>
+        </div>
+    );
+}

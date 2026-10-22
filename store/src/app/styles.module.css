@@ -70,3 +70,20 @@
 .cardButtons{
     cursor: pointer;
 }
+
+.pageHeader{
+    width: 100vw;
+    height: 20vh;
+    background-color: rgb(178, 178, 178);
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.storeImage{
+    position: absolute;
+}
+
+.storeName{
+    text-align: center;
+    font-size: 3.2em;
+}
