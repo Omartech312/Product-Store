@@ -112,15 +112,24 @@ export function ProductManagement(){
         setProducts(prevProducts => prevProducts.filter((cur) => cur.id != id))
     }
 
+    let check: boolean = true;
+
+    let display:any = (check ?
+        <div>
+            <h2 className={styles.prodSecHead}>Add New Products:</h2>
+            <NewProductsArea onAddProduct={addProduct}/>
+        </div> : <div>
+            <h2 className={styles.prodSecHead}>Products:</h2>
+            <div className={styles.productDiv}>
+                {displayProducts}
+            </div>
+        </div>
+    );
+
 
     return(
         <>
-        <h2 className={styles.prodSecHead}>Add New Products:</h2>
-        <NewProductsArea onAddProduct={addProduct}/>
-        <h2 className={styles.prodSecHead}>Products:</h2>
-        <div className={styles.productDiv}>
-            {displayProducts}
-        </div>
+        {display}
         </>
     );
 }

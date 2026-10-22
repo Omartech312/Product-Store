@@ -43,6 +43,7 @@
     border: 1px solid white;
     padding: 10px;
     background-color: rgb(54, 54, 54);
+    opacity: .7;
 }
 
 .newProdInputs{
@@ -96,6 +97,7 @@
     top: 3.5%;
     left: 2%;
     border-radius: 200px;
+    opacity: .8;
 }
 
 .storeName{
