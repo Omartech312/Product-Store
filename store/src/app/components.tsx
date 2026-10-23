@@ -13,6 +13,12 @@ type CardProps = Product & {
     onRemoveProduct: (id: number) => void;
 };
 
+
+type SwapindowProp = {
+    state: boolean;
+    onSwapWindow: () => void;
+}
+
 export function Card(prop: CardProps){
     const [counter, setCounter] = useState(0);
     //console.log("CSS Module:", styles);
@@ -96,6 +102,7 @@ export function NewProductsArea({onAddProduct}: NewProductsProps){
 
 export function ProductManagement(){
     const [products, setProducts] = useState<Product[]>(initialProducts);
+    const [check, setCheck] = useState(false);
     
     const displayProducts = products.map((prod) =>(
     <Card id={prod.id} key={prod.id} name={prod.name} priceCents={prod.priceCents} description={prod.description} image={prod.image} onRemoveProduct={removeProduct} ></Card>
@@ -112,36 +119,37 @@ export function ProductManagement(){
         setProducts(prevProducts => prevProducts.filter((cur) => cur.id != id))
     }
 
-    let check: boolean = true;
-
-    let display:any = (check ?
-        <div>
-            <h2 className={styles.prodSecHead}>Add New Products:</h2>
-            <NewProductsArea onAddProduct={addProduct}/>
-        </div> : <div>
-            <h2 className={styles.prodSecHead}>Products:</h2>
-            <div className={styles.productDiv}>
-                {displayProducts}
-            </div>
-        </div>
-    );
-
+    function swapWindow(){
+        console.log(check);
+        setCheck(prevCheck => !prevCheck);
+    }
 
     return(
         <>
-        {display}
+            <Header onSwapWindow={swapWindow} state={check}></Header>
+            {check ? 
+            <div>
+            <h2 className={styles.prodSecHead}>Add New Products:</h2>
+            <NewProductsArea onAddProduct={addProduct}/>
+            </div> : <div>
+            <h2 className={styles.prodSecHead}>Products:</h2>
+                <div className={styles.productDiv}>
+                    {displayProducts}
+                </div>
+            </div>}
         </>
     );
 }
 
-export function Header(){
+export function Header(prop: SwapindowProp){
     return(
         <div className={styles.pageHeader}>
             <img className={styles.storeImage} src='./images/missing.avif'></img>
             <h1 className={styles.storeName}>Store Name</h1>
             <div className={styles.pageHeaderNav}>
-                <button className={styles.navButtons}>List of Products</button>
-                <button className={styles.navButtons}>Add new Product</button>
+                {prop.state ? 
+                <button onClick={prop.onSwapWindow} className={styles.navButtons}>List of Products</button> :
+                <button onClick={prop.onSwapWindow} className={styles.navButtons}>Add new Product</button>}
             </div>
         </div>
     );
