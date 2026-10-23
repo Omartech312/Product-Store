@@ -62,6 +62,7 @@ export function Card(prop: CardProps){
                 <button onClick={increment} className={styles.cardButtonsPlus}> + </button>
             </div>
             <button >Add to Card</button>
+            <ProductDescription />
         </div>
     );
 }
@@ -160,5 +161,14 @@ export function Header(prop: SwapindowProp){
                 <button onClick={prop.onSwapWindow} className={styles.navButtons}>Add new Product</button>}
             </div>
         </div>
+    );
+}
+
+function ProductDescription(){
+
+    return(
+    <div className={styles.productWindow}>
+
+    </div>
     );
 }
