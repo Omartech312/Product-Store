@@ -101,26 +101,34 @@ export function NewProductsArea({onAddProduct}: NewProductsProps){
 }
 
 export function ProductManagement(){
+    
     const [products, setProducts] = useState<Product[]>(initialProducts);
     const [check, setCheck] = useState(false);
     
+    // traverses array of types to create cards 
     const displayProducts = products.map((prod) =>(
     <Card id={prod.id} key={prod.id} name={prod.name} priceCents={prod.priceCents} description={prod.description} image={prod.image} onRemoveProduct={removeProduct} ></Card>
     ));
 
+    // calculates the nextId based on the id properties of each array element
     const nextId = useRef(Math.max(0, ...initialProducts.map((product) => product.id)) + 1);
 
+    // function to add a new product
     function addProduct(details: NewProductDetails){
+        // creates a new object using the detailed passed from the newProduct section + the nextId
         const product: Product = { ...details, id: nextId.current++, };
-        setProducts((previous) => [...previous, product]);
+        // spreads (destructs) prevProducts within squared brackets along with product to integrate it into the array
+        setProducts((prevProducts) => [...prevProducts, product]);
     }
 
     function removeProduct(id: number){
+        // using filter method of array keeps all elements that do not have the same id as the one passed to this function
         setProducts(prevProducts => prevProducts.filter((cur) => cur.id != id))
     }
 
     function swapWindow(){
-        console.log(check);
+        //console.log(check);
+        // toggles true/flase to decide whether to display the list of elements or the new Product compnent
         setCheck(prevCheck => !prevCheck);
     }
 
