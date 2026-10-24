@@ -2,6 +2,7 @@
 import styles from "./styles.module.css"
 import {Product, initialProducts} from "./products"
 import { useState, useRef } from 'react';
+import { createProduct } from "./api/products/routes";
 
 type NewProductDetails = Omit<Product, "id">;
 
@@ -75,6 +76,7 @@ export function NewProductsArea({onAddProduct}: NewProductsProps){
     const [price, setPrice] = useState(0);
     const [description, setDescription] = useState("");
     const [image, setImage] = useState("");
+    const [message, setMessage] = useState("");
 
     return(
         <div className={styles.newProdInputsArea} >
@@ -84,6 +86,7 @@ export function NewProductsArea({onAddProduct}: NewProductsProps){
 
                 if(!name.trim() || !description.trim() || !image.trim() ||
                     !Number.isFinite(price) || price < 0 ){
+                    setMessage("Error uploading new product");
                     return;
                 }
 
@@ -93,6 +96,11 @@ export function NewProductsArea({onAddProduct}: NewProductsProps){
                     description: description.trim(),
                     image: image.trim(),
                 });
+                setName("");
+                setPrice(0);
+                setDescription("");
+                setImage("");
+                setMessage(`New Product: ${name} was Successfully added!`);
             }}>
             <input value={name} className={styles.newProdInputs} type="text" placeholder="name" onChange={(event) => setName(event.currentTarget.value)}></input><br></br>
             <input value={price} className={styles.newProdInputs} type="number" placeholder="price" onChange={(event) => setPrice(Number(event.currentTarget.value))}></input><br></br>
@@ -100,6 +108,7 @@ export function NewProductsArea({onAddProduct}: NewProductsProps){
             <input value={image} className={styles.newProdInputs} type="file" accept="image/*" onChange={(event) => setImage(event.currentTarget.value)}></input><br></br>
             <button className={`${styles.newProdButton}`} type="submit">Submit</button>
             </form>
+            <p className={styles.addProdMessage}>{message}</p>
         </div>
     )
 }
@@ -121,6 +130,7 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
     function addProduct(details: NewProductDetails){
         // creates a new object using the detailed passed from the newProduct section + the nextId
         const product: Product = { ...details, id: nextId.current++, };
+        createProduct(product);
         // spreads (destructs) prevProducts within squared brackets along with product to integrate it into the array
         setProducts((prevProducts) => [...prevProducts, product]);
     }

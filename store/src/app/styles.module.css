@@ -136,3 +136,8 @@
     border-radius: 20px;
     display: none;
 }
+
+.addProdMessage{
+    font-size: 1.5em;
+    color: white;
+}
