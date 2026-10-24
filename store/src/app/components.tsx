@@ -13,11 +13,14 @@ type CardProps = Product & {
     onRemoveProduct: (id: number) => void;
 };
 
-
 type SwapindowProp = {
     state: boolean;
     onSwapWindow: () => void;
 }
+
+type ProductManagementProps = {
+    products: Product[];
+};
 
 export function Card(prop: CardProps){
     const [counter, setCounter] = useState(0);
@@ -101,9 +104,9 @@ export function NewProductsArea({onAddProduct}: NewProductsProps){
     )
 }
 
-export function ProductManagement(){
-    
-    const [products, setProducts] = useState<Product[]>(initialProducts);
+export function ProductManagement({ products: databaseProducts, }: ProductManagementProps) {
+    const [products, setProducts] = useState<Product[]>(databaseProducts);
+    //const [products, setProducts] = useState<Product[]>(initialProducts);
     const [check, setCheck] = useState(false);
     
     // traverses array of types to create cards 
@@ -112,7 +115,7 @@ export function ProductManagement(){
     ));
 
     // calculates the nextId based on the id properties of each array element
-    const nextId = useRef(Math.max(0, ...initialProducts.map((product) => product.id)) + 1);
+    const nextId = useRef(Math.max(0, products.length + 1));
 
     // function to add a new product
     function addProduct(details: NewProductDetails){
@@ -121,6 +124,7 @@ export function ProductManagement(){
         // spreads (destructs) prevProducts within squared brackets along with product to integrate it into the array
         setProducts((prevProducts) => [...prevProducts, product]);
     }
+
 
     function removeProduct(id: number){
         // using filter method of array keeps all elements that do not have the same id as the one passed to this function
