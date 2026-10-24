@@ -1,5 +1,5 @@
 import Image from "next/image";
-import {ProductManagement, Header } from "./components"
+import { ProductManagement, Header } from "./components"
 import styles from "./styles.module.css"
 import { pool } from "./lib/db";
 
