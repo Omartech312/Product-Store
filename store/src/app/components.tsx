@@ -2,7 +2,6 @@
 import styles from "./styles.module.css"
 import {Product, initialProducts} from "./products"
 import { useState, useRef } from 'react';
-import { createProduct } from "./api/products/routes";
 
 type NewProductDetails = Omit<Product, "id">;
 
