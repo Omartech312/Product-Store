@@ -12,7 +12,7 @@ export async function POST(request: Request){
 async function createProduct(details: Omit<Product, "id">): Promise<Product>{
     //console.log(details);
     const result = await pool.query<Product>(`
-    INSERT INTO products (name, price_cents AS "priceCents", description, image)
+    INSERT INTO products (name, price_cents, description, image)
     values($1, $2, $3, $4)
     RETURNING
     id, name, price_cents AS "priceCents", description, image`,

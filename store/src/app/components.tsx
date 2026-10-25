@@ -22,6 +22,22 @@ type ProductManagementProps = {
     products: Product[];
 };
 
+async function createProduct(details: NewProductDetails): Promise<Product>{
+    const response = await fetch("/api/products", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(details),
+    });
+
+    if(!response.ok){
+        throw new Error("Couldn't save product");
+    }
+
+    return response.json();
+}
+
 export function Card(prop: CardProps){
     const [counter, setCounter] = useState(0);
     //console.log("CSS Module:", styles);
@@ -126,12 +142,11 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
     const nextId = useRef(Math.max(0, products.length + 1));
 
     // function to add a new product
-    function addProduct(details: NewProductDetails){
+    async function addProduct(details: NewProductDetails){
         // creates a new object using the detailed passed from the newProduct section + the nextId
-        const product: Product = { ...details, id: nextId.current++, };
-        createProduct(product);
+        const savedProduct = await createProduct(details);
         // spreads (destructs) prevProducts within squared brackets along with product to integrate it into the array
-        setProducts((prevProducts) => [...prevProducts, product]);
+        setProducts((prevProducts) => [...prevProducts, savedProduct]);
     }
 
 
