@@ -1,6 +1,6 @@
 "use client";
-import styles from "./styles.module.css"
-import {Product, initialProducts} from "./products"
+import styles from "./styles.module.css";
+import {Product} from "./products";
 import { useState, useRef } from 'react';
 
 type NewProductDetails = Omit<Product, "id">;
