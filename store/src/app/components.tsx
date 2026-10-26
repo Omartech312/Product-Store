@@ -26,6 +26,10 @@ type SwapindowProp = {
     onSwapWindow: () => void;
 }
 
+type DisplayDetailsProp = Product & {
+    onDisplayDetails: () => void;
+}
+
 type ProductManagementProps = {
     products: Product[];
 };
@@ -106,7 +110,7 @@ export function Card(prop: CardProps){
                 <button onClick={increment} className={styles.cardButtonsPlus}> + </button>
             </div>
             <button >Add to Card</button>
-            {display ? <ProductDescription /> : <button onClick={swapDisplay} className={styles.productWindowExpand}><img src="./images/expand.webp"></img></button>}
+            {display ? <ProductDescription id={prop.id} name={prop.name} priceCents={prop.priceCents} description={prop.description} image={prop.image} onDisplayDetails={swapDisplay} /> : <button onClick={swapDisplay} className={styles.productWindowExpand}><img src="./images/expand.webp"></img></button>}
         </div>
     );
 }
@@ -226,12 +230,17 @@ export function Header(prop: SwapindowProp){
     );
 }
 
-function ProductDescription(product: Product){
+function ProductDescription(product: DisplayDetailsProp){
 
     return(
     <div className={styles.productWindow}>
         <div className={styles.productWindowRelative}>
-            <img></img>
+            <button className={styles.closeProductWindow} onClick={product.onDisplayDetails}>X</button>
+            <h1 className={styles.prodWindowTitle}>{product.name}</h1>
+            <img className={styles.prodWindowImage} src={product.image}></img>
+            <div className={styles.prodWindowDescription}>
+                {product.description}
+            </div>
         </div>
     </div>
     );
