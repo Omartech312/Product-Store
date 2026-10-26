@@ -137,6 +137,12 @@
     display: none;
 }
 
+.productWindowRelative{
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
 .addProdMessage{
     font-size: 1.5em;
     color: white;
