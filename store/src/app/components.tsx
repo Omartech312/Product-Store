@@ -166,10 +166,17 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
 
 
     async function removeProduct(id: number){
-        const removedItem = await deleteProduct(id);
+        try{
+            // returning the name and id, so that a sucess message can be displayed for some secs.
+            const removedItem = await deleteProduct(id);
 
-        // using filter method of array keeps all elements that do not have the same id as the one passed to this function
-        setProducts(prevProducts => prevProducts.filter((cur) => cur.id != id))
+            // using filter method of array keeps all elements that do not have the same id as the one passed to this function
+            setProducts(prevProducts => prevProducts.filter((cur) => cur.id != id))
+        }
+        // in case an error is detected it will be displayed on the error console
+        catch(error){
+            console.error(error);
+        }
     }
 
     function swapWindow(){
