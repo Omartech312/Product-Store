@@ -63,6 +63,7 @@ async function deleteProduct(id: number): Promise<Pick<Product, "id" | "name">>{
 
 export function Card(prop: CardProps){
     const [counter, setCounter] = useState(0);
+    const [display, setDisplay] = useState(false);
     //console.log("CSS Module:", styles);
     //console.log("cardBack:", styles.cardBack);
 
@@ -83,6 +84,10 @@ export function Card(prop: CardProps){
             setCounter(Number(newVal.value));
             console.log(`Change: ${counter}`);
         }
+    }
+
+    function swapDisplay(){
+        setDisplay(prevDisplay => !prevDisplay);
     }
 
     return(
@@ -228,7 +233,9 @@ function ProductDescription(product: Product){
 
     return(
     <div className={styles.productWindow}>
-
+        <div className={styles.productWindowRelative}>
+            <img></img>
+        </div>
     </div>
     );
 }
