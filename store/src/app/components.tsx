@@ -1,7 +1,15 @@
 "use client";
 import styles from "./styles.module.css";
-import {Product} from "./products";
+//import {Product} from "./products";
 import { useState, useRef } from 'react';
+
+type Product = {
+    id: number;
+    name: string;
+    priceCents: number;
+    description: string;
+    image: string;
+};
 
 type NewProductDetails = Omit<Product, "id">;
 
@@ -216,7 +224,7 @@ export function Header(prop: SwapindowProp){
     );
 }
 
-function ProductDescription(){
+function ProductDescription(product: Product){
 
     return(
     <div className={styles.productWindow}>
