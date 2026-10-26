@@ -99,9 +99,6 @@ export function Card(prop: CardProps){
             >X</button>
             <img className={styles.cardImage} src={prop.image}></img>
             <p className={styles.prodHeader}>{prop.name}</p>
-            <div>
-                <p>{prop.description}</p>
-            </div>
             <p>${prop.priceCents / 100}</p>
             <div className={styles.cardButton}>
                 <button onClick={decrement} className={styles.cardButtonsMinus}> - </button>
@@ -109,7 +106,7 @@ export function Card(prop: CardProps){
                 <button onClick={increment} className={styles.cardButtonsPlus}> + </button>
             </div>
             <button >Add to Card</button>
-            <ProductDescription />
+            {display ? <ProductDescription /> : <button onClick={swapDisplay} className={styles.productWindowExpand}><img src="./images/expand.webp"></img></button>}
         </div>
     );
 }
