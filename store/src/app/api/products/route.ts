@@ -1,5 +1,6 @@
 import { Product } from '../../products';
 import { pool } from '../../lib/db';
+import { error } from 'console';
 
 export async function POST(request: Request){
     const details = await request.json();
@@ -24,5 +25,33 @@ async function createProduct(details: Omit<Product, "id">): Promise<Product>{
     ]
     );
 
+    return result.rows[0];
+}
+
+type RemovedProduct = Pick<Product, "id" | "name">;
+
+export async function DELETE(request: Request){
+    const id = await request.json();
+
+    if (!Number.isSafeInteger(id) || id <= 0) {
+        return Response.json({error: "Invalid product ID"}, {status: 400});
+    }
+
+    const removed = await removeProduct(id);
+
+    if(!removed){
+        return Response.json({error: "Product Not Found"}, {status: 404});
+    }
+    return Response.json(removed, {status: 200});
+}
+
+async function removeProduct(id: number): Promise<RemovedProduct | undefined>{
+    const result = await pool.query<RemovedProduct>(`
+    DELETE FROM products
+    WHERE id = $1
+    RETURNING
+    id, name`,
+    [id]);
+    
     return result.rows[0];
 }

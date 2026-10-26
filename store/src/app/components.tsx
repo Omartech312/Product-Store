@@ -38,6 +38,21 @@ async function createProduct(details: NewProductDetails): Promise<Product>{
     return response.json();
 }
 
+async function deleteProduct(id: number): Promise<Pick<Product, "id" | "name">>{
+    const response = await fetch("/api/products", {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(id)
+    });
+
+    if(!response.ok){
+        throw new Error("Couldn't remove product");
+    }
+    return response.json();
+}
+
 export function Card(prop: CardProps){
     const [counter, setCounter] = useState(0);
     //console.log("CSS Module:", styles);
@@ -150,7 +165,9 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
     }
 
 
-    function removeProduct(id: number){
+    async function removeProduct(id: number){
+        const removedItem = await deleteProduct(id);
+
         // using filter method of array keeps all elements that do not have the same id as the one passed to this function
         setProducts(prevProducts => prevProducts.filter((cur) => cur.id != id))
     }
