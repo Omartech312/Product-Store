@@ -220,6 +220,10 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
         setCheck(prevCheck => !prevCheck);
     }
 
+    function filterByName(name: string){
+        displayProducts = products.filter().map()
+    }
+
     return(
         <>
             <Header onSwapWindow={swapWindow} state={check}></Header>
@@ -233,6 +237,9 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
                     Sort by:
                     <button className={`${styles.filterButton} bg-white`}>Name</button>
                     <button className={`${styles.filterButton} bg-white`}>Price</button>
+
+                    <label>Search by name:</label>
+                    <input value={nameFilter} type="text" placeholder="Yogurt" onChange={filterByName}></input>
                 </div>
                 <div className={styles.productDiv}>
                     {displayProducts}
