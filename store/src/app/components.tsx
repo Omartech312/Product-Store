@@ -225,12 +225,12 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
     }
 
     function sortByPrice(){
-        setProducts(prevProducts => prevProducts.sort((a,b) => a.priceCents - b.priceCents));
+        const copy: Product[] = [...products].sort((a,b) => a.priceCents - b.priceCents);
+        setProducts((copy));
     }
 
     function sortByName(){
-        let copy: Product[] = [...products];
-        copy.sort((a,b) => a.name.localeCompare(b.name));
+        const copy: Product[] = [...products].sort((a,b) => a.name.localeCompare(b.name));
         setProducts(copy);
     }
 
@@ -247,7 +247,7 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
                     Sort by:
                     <button onClick={sortByName} className={`${styles.filterButton} bg-white`}>Name</button>
                     <button onClick={sortByPrice} className={`${styles.filterButton} bg-white`}>Price</button>
-
+                    <br></br>
                     <label>Search by name:</label>
                     <input value={nameFilter} type="text" placeholder="Yogurt" onChange={filterByName}></input>
                 </div>
