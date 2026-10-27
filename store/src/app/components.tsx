@@ -2,14 +2,7 @@
 import styles from "./styles.module.css";
 //import {Product} from "./products";
 import { useState, useRef } from 'react';
-
-type Product = {
-    id: number;
-    name: string;
-    priceCents: number;
-    description: string;
-    image: string;
-};
+import { Product } from './products';
 
 type NewProductDetails = Omit<Product, "id">;
 
@@ -119,7 +112,7 @@ export function NewProductsArea({onAddProduct}: NewProductsProps){
     const [name, setName] = useState("");
     const [price, setPrice] = useState(0);
     const [description, setDescription] = useState("");
-    const [image, setImage] = useState("");
+    const [imageFile, setImageFile] = useState<File | null>(null);
     const [message, setMessage] = useState("");
 
     return(
@@ -128,7 +121,7 @@ export function NewProductsArea({onAddProduct}: NewProductsProps){
             onSubmit={ (event) => {
                 event.preventDefault();
 
-                if(!name.trim() || !description.trim() || !image.trim() ||
+                if(!name.trim() || !description.trim() || !imageFile ||
                     !Number.isFinite(price) || price < 0 ){
                     setMessage("Error uploading new product");
                     return;
@@ -138,18 +131,18 @@ export function NewProductsArea({onAddProduct}: NewProductsProps){
                     name:name.trim(),
                     priceCents: Math.round(price * 100),
                     description: description.trim(),
-                    image: image.trim(),
+                    image: imageFile.trim(),
                 });
                 setName("");
                 setPrice(0);
                 setDescription("");
-                setImage("");
+                setImageFile(null);
                 setMessage(`New Product: ${name} was Successfully added!`);
             }}>
             <input value={name} className={styles.newProdInputs} type="text" placeholder="name" onChange={(event) => setName(event.currentTarget.value)}></input><br></br>
             <input value={price} className={styles.newProdInputs} type="number" placeholder="price" onChange={(event) => setPrice(Number(event.currentTarget.value))}></input><br></br>
             <input value={description} className={styles.newProdInputs} type="description" placeholder="description" onChange={(event) => setDescription(event.currentTarget.value)}></input><br></br>
-            <input value={image} className={styles.newProdInputs} type="file" accept="image/*" onChange={(event) => setImage(event.currentTarget.value)}></input><br></br>
+            <input className={styles.newProdInputs} type="file" accept="image/*" onChange={(event) => setImageFile(event.currentTarget.files?.[0] ?? null)}></input><br></br>
             <button className={`${styles.newProdButton}`} type="submit">Submit</button>
             </form>
             <p className={styles.addProdMessage}>{message}</p>

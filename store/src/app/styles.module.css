@@ -184,7 +184,8 @@
 
 .prodWindowDescription{
     position: absolute;
-    left: 55%;
-    top: 15%;
+    right: 4%;
+    font-size: 1.2em;
+    top: 18%;
     max-width: 50%;
 }
