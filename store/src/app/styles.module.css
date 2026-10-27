@@ -23,6 +23,7 @@
 }
 
 .prodSecHead{
+    position: relative;
     text-align: center;
     font-weight: bolder;
     font-size: 1.8em;
@@ -188,4 +189,11 @@
     font-size: 1.2em;
     top: 18%;
     max-width: 50%;
+}
+
+.filterButton{
+    color: black;
+    padding: 2px;
+    margin: 4px;
+    border-radius: 5px;
 }

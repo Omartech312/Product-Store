@@ -181,6 +181,7 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
     const [products, setProducts] = useState<Product[]>(databaseProducts);
     //const [products, setProducts] = useState<Product[]>(initialProducts);
     const [check, setCheck] = useState(false);
+    const [nameFilter, setNameFilter] = useState("");
     
     // traverses array of types to create cards 
     const displayProducts = products.map((prod) =>(
@@ -228,6 +229,11 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
             <NewProductsArea onAddProduct={addProduct}/>
             </div> : <div>
             <h2 className={styles.prodSecHead}>Products:</h2>
+                <div className={styles.filteringSection}>
+                    Sort by:
+                    <button className={`${styles.filterButton} bg-white`}>Name</button>
+                    <button className={`${styles.filterButton} bg-white`}>Price</button>
+                </div>
                 <div className={styles.productDiv}>
                     {displayProducts}
                 </div>
