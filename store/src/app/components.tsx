@@ -2,7 +2,7 @@
 import styles from "./styles.module.css";
 //import {Product} from "./products";
 import { useState, useRef } from 'react';
-import { Product } from './products';
+import type { Product } from './products';
 
 type NewProductDetails = Omit<Product, "id">;
 
@@ -55,6 +55,22 @@ async function deleteProduct(id: number): Promise<Pick<Product, "id" | "name">>{
     if(!response.ok){
         throw new Error("Couldn't remove product");
     }
+    return response.json();
+}
+
+async function uploadImage(file: File){
+    const formData = new FormData();
+    formData.append("image", file);
+
+    const response = await fetch("/api/uploads", {
+        method: "POST",
+        body: formData,
+    });
+
+    if(!response.ok){
+        throw new Error("Image failed to upload");
+    }
+
     return response.json();
 }
 
@@ -118,7 +134,7 @@ export function NewProductsArea({onAddProduct}: NewProductsProps){
     return(
         <div className={styles.newProdInputsArea} >
             <form
-            onSubmit={ (event) => {
+            onSubmit={async (event) => {
                 event.preventDefault();
 
                 if(!name.trim() || !description.trim() || !imageFile ||
@@ -126,22 +142,33 @@ export function NewProductsArea({onAddProduct}: NewProductsProps){
                     setMessage("Error uploading new product");
                     return;
                 }
-
+                try{
+                    const result = await uploadImage(imageFile);
+                    console.log("Server got:", result);
+                    setMessage("The server received an image");
+        
+                }
+                catch(error){
+                    console.log(error);
+                    setMessage("failed to upload")
+                }
+                /*
                 onAddProduct({
                     name:name.trim(),
                     priceCents: Math.round(price * 100),
                     description: description.trim(),
-                    image: imageFile.trim(),
+                    image: uploadImageUrl,
                 });
                 setName("");
                 setPrice(0);
                 setDescription("");
                 setImageFile(null);
                 setMessage(`New Product: ${name} was Successfully added!`);
+                */
             }}>
             <input value={name} className={styles.newProdInputs} type="text" placeholder="name" onChange={(event) => setName(event.currentTarget.value)}></input><br></br>
-            <input value={price} className={styles.newProdInputs} type="number" placeholder="price" onChange={(event) => setPrice(Number(event.currentTarget.value))}></input><br></br>
-            <input value={description} className={styles.newProdInputs} type="description" placeholder="description" onChange={(event) => setDescription(event.currentTarget.value)}></input><br></br>
+            <input min="0" step={0.01} value={price} className={styles.newProdInputs} type="number" placeholder="price" onChange={(event) => setPrice(Number(event.currentTarget.value))}></input><br></br>
+            <input value={description} className={styles.newProdInputs} type="text" placeholder="description" onChange={(event) => setDescription(event.currentTarget.value)}></input><br></br>
             <input className={styles.newProdInputs} type="file" accept="image/*" onChange={(event) => setImageFile(event.currentTarget.files?.[0] ?? null)}></input><br></br>
             <button className={`${styles.newProdButton}`} type="submit">Submit</button>
             </form>

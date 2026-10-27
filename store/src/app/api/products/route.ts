@@ -1,4 +1,4 @@
-import { Product } from '../../products';
+import type { Product } from '../../products';
 import { pool } from '../../lib/db';
 import { error } from 'console';
 
