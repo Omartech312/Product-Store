@@ -1,17 +1,17 @@
 
 .cardBack{
-    background-color: white;
+    background-color: rgb(255, 255, 255, .95);
     border-radius: 5px;
     color: black;
     box-shadow: 2px 2px 5px skyblue;
     text-align: center;
     position: relative;
-    opacity: .95;
 }
 
 .cardImage{
     padding: 10px;
     align-self: center;
+    border-radius: 50px;
 }
 
 .productDiv{
@@ -137,6 +137,7 @@
     background-color: rgba(205, 204, 200, 0.9);
     border: 5px solid rgb(69, 218, 139);
     border-radius: 20px;
+    z-index: 1;
 }
 
 .productWindowRelative{
@@ -190,7 +191,8 @@
     right: 4%;
     font-size: 1.2em;
     top: 18%;
-    max-width: 50%;
+    width: 50%;
+    text-align: center;
 }
 
 .filterButton{
