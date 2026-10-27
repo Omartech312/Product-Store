@@ -184,7 +184,7 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
     const [nameFilter, setNameFilter] = useState("");
     
     // traverses array of types to create cards 
-    const displayProducts = products.map((prod) =>(
+    const displayProducts = products.filter((prod) => prod.name.includes(nameFilter)).map((prod) =>(
     <Card id={prod.id} key={prod.id} name={prod.name} priceCents={prod.priceCents} description={prod.description} image={prod.image} onRemoveProduct={removeProduct} ></Card>
     ));
 
@@ -220,8 +220,8 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
         setCheck(prevCheck => !prevCheck);
     }
 
-    function filterByName(name: string){
-        //displayProducts = products.filter().map()
+    function filterByName(input : HTMLInputElement){
+        setNameFilter(input.value);
     }
 
     function sortByPrice(){
@@ -249,7 +249,7 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
                     <button onClick={sortByPrice} className={`${styles.filterButton} bg-white`}>Price</button>
                     <br></br>
                     <label>Search by name:</label>
-                    <input value={nameFilter} type="text" placeholder="Yogurt" onChange={filterByName}></input>
+                    <input value={nameFilter} type="text" placeholder="Yogurt" onChange={(event) => filterByName(event.currentTarget)}></input>
                 </div>
                 <div className={styles.productDiv}>
                     {displayProducts}
