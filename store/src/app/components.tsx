@@ -221,7 +221,17 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
     }
 
     function filterByName(name: string){
-        displayProducts = products.filter().map()
+        //displayProducts = products.filter().map()
+    }
+
+    function sortByPrice(){
+        setProducts(prevProducts => prevProducts.sort((a,b) => a.priceCents - b.priceCents));
+    }
+
+    function sortByName(){
+        let copy: Product[] = [...products];
+        copy.sort((a,b) => a.name.localeCompare(b.name));
+        setProducts(copy);
     }
 
     return(
@@ -235,8 +245,8 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
             <h2 className={styles.prodSecHead}>Products:</h2>
                 <div className={styles.filteringSection}>
                     Sort by:
-                    <button className={`${styles.filterButton} bg-white`}>Name</button>
-                    <button className={`${styles.filterButton} bg-white`}>Price</button>
+                    <button onClick={sortByName} className={`${styles.filterButton} bg-white`}>Name</button>
+                    <button onClick={sortByPrice} className={`${styles.filterButton} bg-white`}>Price</button>
 
                     <label>Search by name:</label>
                     <input value={nameFilter} type="text" placeholder="Yogurt" onChange={filterByName}></input>
