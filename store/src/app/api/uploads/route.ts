@@ -9,5 +9,5 @@ export async function POST(request: Request){
         );
     }
 
-    return Response.json( {name: image.name, size: image.size, type: image.type});
+    return Response.json( {name: image.name, size: image.size, type: image.type}, {status: 200});
 }

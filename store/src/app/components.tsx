@@ -131,18 +131,24 @@ export function NewProductsArea({onAddProduct}: NewProductsProps){
     const [imageFile, setImageFile] = useState<File | null>(null);
     const [message, setMessage] = useState("");
 
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     return(
         <div className={styles.newProdInputsArea} >
             <form
             onSubmit={async (event) => {
                 event.preventDefault();
 
-                if(!name.trim() || !description.trim() || !imageFile ||
-                    !Number.isFinite(price) || price < 0 ){
-                    setMessage("Error uploading new product");
-                    return;
-                }
+                if (isSubmitting) return;
+                setIsSubmitting(true);
+
                 try{
+                    if(!name.trim() || !description.trim() || !imageFile ||
+                    !Number.isFinite(price) || price < 0 ){
+                        setMessage("Error uploading new product");
+                        return;
+                    }
+
                     const result = await uploadImage(imageFile);
                     console.log("Server got:", result);
                     setMessage("The server received an image");
@@ -151,6 +157,9 @@ export function NewProductsArea({onAddProduct}: NewProductsProps){
                 catch(error){
                     console.log(error);
                     setMessage("failed to upload")
+                }
+                finally{
+                    setIsSubmitting(false);
                 }
                 /*
                 onAddProduct({
@@ -170,7 +179,7 @@ export function NewProductsArea({onAddProduct}: NewProductsProps){
             <input min="0" step={0.01} value={price} className={styles.newProdInputs} type="number" placeholder="price" onChange={(event) => setPrice(Number(event.currentTarget.value))}></input><br></br>
             <input value={description} className={styles.newProdInputs} type="text" placeholder="description" onChange={(event) => setDescription(event.currentTarget.value)}></input><br></br>
             <input className={styles.newProdInputs} type="file" accept="image/*" onChange={(event) => setImageFile(event.currentTarget.files?.[0] ?? null)}></input><br></br>
-            <button className={`${styles.newProdButton}`} type="submit">Submit</button>
+            <button disabled={isSubmitting} className={`${styles.newProdButton}`} type="submit">Submit</button>
             </form>
             <p className={styles.addProdMessage}>{message}</p>
         </div>
