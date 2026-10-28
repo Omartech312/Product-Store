@@ -27,6 +27,11 @@ type ProductManagementProps = {
     products: Product[];
 };
 
+type NotificationProp = {
+    message: string;
+    positive: boolean;
+}
+
 async function createProduct(details: NewProductDetails): Promise<Product>{
     const response = await fetch("/api/products", {
         method: "POST",
@@ -161,19 +166,19 @@ export function NewProductsArea({onAddProduct}: NewProductsProps){
                 finally{
                     setIsSubmitting(false);
                 }
-                /*
+
                 onAddProduct({
                     name:name.trim(),
                     priceCents: Math.round(price * 100),
                     description: description.trim(),
-                    image: uploadImageUrl,
+                    image: "/images/yogurt.jpg"
                 });
                 setName("");
                 setPrice(0);
                 setDescription("");
                 setImageFile(null);
                 setMessage(`New Product: ${name} was Successfully added!`);
-                */
+
             }}>
             <input value={name} className={styles.newProdInputs} type="text" placeholder="name" onChange={(event) => setName(event.currentTarget.value)}></input><br></br>
             <input min="0" step={0.01} value={price} className={styles.newProdInputs} type="number" placeholder="price" onChange={(event) => setPrice(Number(event.currentTarget.value))}></input><br></br>
@@ -191,6 +196,7 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
     //const [products, setProducts] = useState<Product[]>(initialProducts);
     const [check, setCheck] = useState(false);
     const [nameFilter, setNameFilter] = useState("");
+    const [notification, setNotification] = useState<(NotificationProp & { id: string }) | null>(null);
     
     // traverses array of types to create cards 
     const displayProducts = products.filter((prod) => prod.name.includes(nameFilter)).map((prod) =>(
@@ -204,6 +210,9 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
     async function addProduct(details: NewProductDetails){
         // creates a new object using the detailed passed from the newProduct section + the nextId
         const savedProduct = await createProduct(details);
+
+        setNotification({id: crypto.randomUUID(), message: `${savedProduct.name} was added`, positive:true});
+
         // spreads (destructs) prevProducts within squared brackets along with product to integrate it into the array
         setProducts((prevProducts) => [...prevProducts, savedProduct]);
     }
@@ -213,6 +222,8 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
         try{
             // returning the name and id, so that a sucess message can be displayed for some secs.
             const removedItem = await deleteProduct(id);
+
+            setNotification({id: crypto.randomUUID(), message: `${removedItem.name} was removed`, positive: false});
 
             // using filter method of array keeps all elements that do not have the same id as the one passed to this function
             setProducts(prevProducts => prevProducts.filter((cur) => cur.id != id))
@@ -246,11 +257,13 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
     return(
         <>
             <Header onSwapWindow={swapWindow} state={check}></Header>
-            {check ? 
-            <div>
+            {notification && (<Notification key={notification.id} message={notification.message} positive={notification.positive} onDismiss={() => setNotification(null)}></Notification>)}
+            {check ? <div>
             <h2 className={styles.prodSecHead}>Add New Products:</h2>
             <NewProductsArea onAddProduct={addProduct}/>
-            </div> : <div>
+            </div> 
+            : 
+            <div>
             <h2 className={styles.prodSecHead}>Products:</h2>
                 <div className={styles.filteringSection}>
                     Sort by:
@@ -296,4 +309,14 @@ function ProductDescription(product: DisplayDetailsProp){
         </div>
     </div>
     );
+}
+
+function Notification(prop: NotificationProp & {onDismiss: () => void}){
+    return(
+    <div className={styles.annouceMessage} onAnimationEnd={prop.onDismiss} role="status">
+        {prop.positive ? 
+        <p className={styles.positive}>{prop.message}</p> : 
+        <p className={styles.negative}>{prop.message}</p>
+        }
+    </div>);
 }
