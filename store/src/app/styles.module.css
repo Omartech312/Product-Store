@@ -229,3 +229,9 @@
     80%  { opacity: 1; }
     100% { opacity: 0; }
 }
+
+.editWindow{
+    background-color: rgba(205, 204, 200, 0.9);
+    text-align: center;
+    border-radius: 5px;
+}

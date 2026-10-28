@@ -63,6 +63,10 @@ async function deleteProduct(id: number): Promise<Pick<Product, "id" | "name">>{
     return response.json();
 }
 
+async function editProduct(product: Product): Promise<Pick<Product, "id" | "name">>{
+    const 
+}
+
 async function uploadImage(file: File){
     const formData = new FormData();
     formData.append("image", file);
@@ -319,4 +323,16 @@ function Notification(prop: NotificationProp & {onDismiss: () => void}){
         <p className={styles.negative}>{prop.message}</p>
         }
     </div>);
+}
+
+function EditProduct(prop: Product){
+
+    return(
+        <div className={styles.editWindow}>
+            <label>Name:</label>
+            <input type="text"></input><br/>
+            <label>Price:</label>
+            <input type="number"></input>
+        </div>
+    );
 }
