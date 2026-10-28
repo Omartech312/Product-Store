@@ -201,3 +201,31 @@
     margin: 4px;
     border-radius: 5px;
 }
+
+.annouceMessage {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    text-align: center;
+    font-size: 2em;
+    background-color: rgba(205, 204, 200, 0.9);
+    border-radius: 10px;
+    animation: notificationFade 3s ease forwards;
+}
+
+.positive{
+    color: #26C1F4;
+}
+
+.negative{
+    color: rgb(251, 59, 59);
+}
+
+@keyframes notificationFade {
+    0%   { opacity: 0; }
+    15%  { opacity: 1; }
+    80%  { opacity: 1; }
+    100% { opacity: 0; }
+}

@@ -27,6 +27,11 @@ type ProductManagementProps = {
     products: Product[];
 };
 
+type NotificationProp = {
+    message: string;
+    positive: boolean;
+}
+
 async function createProduct(details: NewProductDetails): Promise<Product>{
     const response = await fetch("/api/products", {
         method: "POST",
@@ -191,6 +196,7 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
     //const [products, setProducts] = useState<Product[]>(initialProducts);
     const [check, setCheck] = useState(false);
     const [nameFilter, setNameFilter] = useState("");
+    const [notification, setNotification] = useState<NotificationProp | null>(null);
     
     // traverses array of types to create cards 
     const displayProducts = products.filter((prod) => prod.name.includes(nameFilter)).map((prod) =>(
@@ -204,6 +210,9 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
     async function addProduct(details: NewProductDetails){
         // creates a new object using the detailed passed from the newProduct section + the nextId
         const savedProduct = await createProduct(details);
+
+        setNotification({message: `${savedProduct.name} was added`, positive:true})
+
         // spreads (destructs) prevProducts within squared brackets along with product to integrate it into the array
         setProducts((prevProducts) => [...prevProducts, savedProduct]);
     }
@@ -213,6 +222,8 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
         try{
             // returning the name and id, so that a sucess message can be displayed for some secs.
             const removedItem = await deleteProduct(id);
+
+            setNotification({message: `${removedItem.name} was removed`, positive: false});
 
             // using filter method of array keeps all elements that do not have the same id as the one passed to this function
             setProducts(prevProducts => prevProducts.filter((cur) => cur.id != id))
@@ -246,11 +257,13 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
     return(
         <>
             <Header onSwapWindow={swapWindow} state={check}></Header>
-            {check ? 
-            <div>
+            {notification && (<Notification message={notification.message} positive={notification.positive}></Notification>)}
+            {check ? <div>
             <h2 className={styles.prodSecHead}>Add New Products:</h2>
             <NewProductsArea onAddProduct={addProduct}/>
-            </div> : <div>
+            </div> 
+            : 
+            <div>
             <h2 className={styles.prodSecHead}>Products:</h2>
                 <div className={styles.filteringSection}>
                     Sort by:
@@ -296,4 +309,16 @@ function ProductDescription(product: DisplayDetailsProp){
         </div>
     </div>
     );
+}
+
+function Notification(prop: NotificationProp){
+
+    return(
+    <div className={styles.annouceMessage}>
+        <h1>Hello</h1>
+        {prop.positive ? 
+        <p className={styles.positive}>{prop.message}</p> : 
+        <p className={styles.negative}>{prop.message}</p>
+        }
+    </div>);
 }
