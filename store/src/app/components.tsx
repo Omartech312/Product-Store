@@ -212,6 +212,7 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
     const [check, setCheck] = useState(false);
     const [nameFilter, setNameFilter] = useState("");
     const [notification, setNotification] = useState<(NotificationProp & { id: string }) | null>(null);
+    const [editProd, setEditProd] = useState<Product | null>(null);
     
     // traverses array of types to create cards 
     const displayProducts = products.filter((prod) => prod.name.includes(nameFilter)).map((prod) =>(
@@ -232,7 +233,6 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
         setProducts((prevProducts) => [...prevProducts, savedProduct]);
     }
 
-
     async function removeProduct(id: number){
         try{
             // returning the name and id, so that a sucess message can be displayed for some secs.
@@ -247,6 +247,18 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
         catch(error){
             console.error(error);
         }
+    }
+
+    async function saveProduct(product: Product){
+        const updatedProd = await editProduct(product);
+
+        setProducts(prevProducts => prevProducts.map(prod =>
+            prod.id === updatedProd.id ? updatedProd : prod
+        ));
+
+        setEditProd(null);
+
+        setNotification({id: crypto.randomUUID(), message: `${updatedProd.name} was updated`, positive: true});
     }
 
     function swapWindow(){
