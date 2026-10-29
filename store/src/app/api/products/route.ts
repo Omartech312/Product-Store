@@ -55,3 +55,14 @@ async function removeProduct(id: number): Promise<RemovedProduct | undefined>{
     
     return result.rows[0];
 }
+
+export async function PATCH(request: Request){
+    const product = await request.json();
+
+    if(product || !Number.isSafeInteger(product.id) ||
+        !product.name.trim() ||
+        !product.description.trim() || product.priceCents < 0){
+            return Response.json({ error: "Invalid product values"}, { status: 400});
+    }
+
+}

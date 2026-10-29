@@ -63,8 +63,19 @@ async function deleteProduct(id: number): Promise<Pick<Product, "id" | "name">>{
     return response.json();
 }
 
-async function editProduct(product: Product): Promise<Pick<Product, "id" | "name">>{
-    const 
+async function editProduct(product: Product): Promise<Product>{
+    const response = await fetch("/api/products", {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(product),
+    })
+
+    if(!response.ok){
+        throw new Error("Couln't edit product");
+    }
+    return response.json();
 }
 
 async function uploadImage(file: File){
