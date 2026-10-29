@@ -59,10 +59,36 @@ async function removeProduct(id: number): Promise<RemovedProduct | undefined>{
 export async function PATCH(request: Request){
     const product = await request.json();
 
-    if(product || !Number.isSafeInteger(product.id) ||
+    if(!product || !Number.isSafeInteger(product.id) ||
         !product.name.trim() ||
         !product.description.trim() || product.priceCents < 0){
             return Response.json({ error: "Invalid product values"}, { status: 400});
     }
 
+    try{
+        const result = await pool.query<Product>(`
+            Update products SET name = $1, price_cents = $2, description = $3 WHERE id = $4
+            RETURNING
+            id,
+            name,
+            price_cents AS "priceCents",
+            description,
+            image`,
+        [   
+            product.name.trim(),
+            product.priceCents,
+            product.description.trim(),
+            product.id
+        ]);
+
+        if(!result.rows[0]){
+            return Response.json({error: "Prod not found"}, {status: 404});
+        }
+        return Response.json(result.rows[0]);
+    }
+    catch(error){
+        console.log(error);
+
+        return Response.json({error: "Failed to update product"}, {status:500});
+    }
 }
