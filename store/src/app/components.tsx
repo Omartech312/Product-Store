@@ -146,6 +146,7 @@ export function Card(prop: CardProps){
     );
 }
 
+// Component that allows the addition of new products to the array of element and database
 export function NewProductsArea({onAddProduct}: NewProductsProps){
     const [name, setName] = useState("");
     const [price, setPrice] = useState(0);
@@ -318,6 +319,10 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
     );
 }
 
+/* Function takes a callback to onSwapWindow which toggles between true/false in ProductManagement 
+    to decide whether to render NewProductsArea or the list of current Products on the database.
+    And a boolean to decide whether to print a button with "List of Products" or "Add new product"
+    */
 export function Header(prop: SwapindowProp){
     return(
         <div className={styles.pageHeader}>
@@ -332,8 +337,9 @@ export function Header(prop: SwapindowProp){
     );
 }
 
+// Component takes a Product object and display's its information, it also contains a callback to close
+// this same compoenent with the X button
 function ProductDescription(product: DisplayDetailsProp){
-
     return(
     <div className={styles.productWindow}>
         <div className={styles.productWindowRelative}>
@@ -348,6 +354,8 @@ function ProductDescription(product: DisplayDetailsProp){
     );
 }
 
+// Component to display toast notification. takes in a prop with the product's name and a boolean to decide
+// the color of the notification: red for negative/removing and blue for positive/adding
 function Notification(prop: NotificationProp & {onDismiss: () => void}){
     return(
     <div className={styles.annouceMessage} onAnimationEnd={prop.onDismiss} role="status">
@@ -357,6 +365,7 @@ function Notification(prop: NotificationProp & {onDismiss: () => void}){
         }
     </div>);
 }
+
 
 function EditProduct(prop: Product){
 
