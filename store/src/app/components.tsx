@@ -1,6 +1,5 @@
 "use client";
 import styles from "./styles.module.css";
-//import {Product} from "./products";
 import { useState, useRef } from 'react';
 import type { Product } from './products';
 
@@ -12,6 +11,7 @@ type NewProductsProps = {
 
 type CardProps = Product & {
     onRemoveProduct: (id: number) => void;
+    onEditProduct: (id: number) => void;
 };
 
 type SwapindowProp = {
@@ -125,6 +125,8 @@ export function Card(prop: CardProps){
 
     return(
         <div className={styles.cardBack}>
+            <button type="button"
+            onClick={() => prop.onEditProduct(prop.id)}>Edit</button>
             <button
                 type="button" className={styles.cardRemoveButton}
                 onClick={() => prop.onRemoveProduct(prop.id)}
@@ -206,31 +208,37 @@ export function NewProductsArea({onAddProduct}: NewProductsProps){
     )
 }
 
-export function ProductManagement({ products: databaseProducts, }: ProductManagementProps) {
+export function ProductManagement({ products: databaseProducts, }: ProductManagementProps){
+    // Array with a list a list of products
     const [products, setProducts] = useState<Product[]>(databaseProducts);
-    //const [products, setProducts] = useState<Product[]>(initialProducts);
+    // determines whether to display addNewProduct or the list of Products
     const [check, setCheck] = useState(false);
+    // Filters the products based on this state
     const [nameFilter, setNameFilter] = useState("");
+    // Used to display the toast notifications
     const [notification, setNotification] = useState<(NotificationProp & { id: string }) | null>(null);
     const [editProd, setEditProd] = useState<Product | null>(null);
     
-    // traverses array of types to create cards 
+    // traverses array of types to create cards and filters them based on the nameFilter, so that the array doesnt change, but the values displayed do
     const displayProducts = products.filter((prod) => prod.name.includes(nameFilter)).map((prod) =>(
-    <Card id={prod.id} key={prod.id} name={prod.name} priceCents={prod.priceCents} description={prod.description} image={prod.image} onRemoveProduct={removeProduct} ></Card>
+    <Card id={prod.id} key={prod.id} name={prod.name} priceCents={prod.priceCents} description={prod.description} image={prod.image} onRemoveProduct={removeProduct} onEditProduct={() => setEditProd(prod)}></Card>
     ));
-
-    // calculates the nextId based on the id properties of each array element
-    const nextId = useRef(Math.max(0, products.length + 1));
 
     // function to add a new product
     async function addProduct(details: NewProductDetails){
-        // creates a new object using the detailed passed from the newProduct section + the nextId
-        const savedProduct = await createProduct(details);
+        try{
+            // Calls createProduct which then makes a HTTP request to add the product to the database
+            const savedProduct = await createProduct(details);
 
-        setNotification({id: crypto.randomUUID(), message: `${savedProduct.name} was added`, positive:true});
+            // Creates a Toast Notification letting the user know that the product was added to database
+            setNotification({id: crypto.randomUUID(), message: `${savedProduct.name} was added`, positive:true});
 
-        // spreads (destructs) prevProducts within squared brackets along with product to integrate it into the array
-        setProducts((prevProducts) => [...prevProducts, savedProduct]);
+            // spreads (destructs) prevProducts within squared brackets along with product to integrate it into the array
+            setProducts((prevProducts) => [...prevProducts, savedProduct]);
+        }
+        catch(error){
+            console.error(error);
+        }
     }
 
     async function removeProduct(id: number){
@@ -262,20 +270,22 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
     }
 
     function swapWindow(){
-        //console.log(check);
         // toggles true/flase to decide whether to display the list of elements or the new Product compnent
         setCheck(prevCheck => !prevCheck);
     }
 
     function filterByName(input : HTMLInputElement){
+        //sets State name which causes a rerender that filters out anything that does not contain the input
         setNameFilter(input.value);
     }
 
+    // Function creates a sorted array based on price and replaces the current Product array with this copy
     function sortByPrice(){
         const copy: Product[] = [...products].sort((a,b) => a.priceCents - b.priceCents);
         setProducts((copy));
     }
 
+    // Same as above, but using name rather than product price
     function sortByName(){
         const copy: Product[] = [...products].sort((a,b) => a.name.localeCompare(b.name));
         setProducts(copy);
