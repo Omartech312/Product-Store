@@ -32,34 +32,53 @@ type NotificationProp = {
     positive: boolean;
 }
 
+// function to add a new value to the database, it takes details which is basically a product omitting id, since the database
+// is in charge of adding unique id (technically its just a counter that increments by one with each new product).
+// and this function returns a Product objet unless an error happens
 async function createProduct(details: NewProductDetails): Promise<Product>{
+
+    // HTTP request targeting POST function in /api/products
     const response = await fetch("/api/products", {
         method: "POST",
+        // Since Im passing a JSON I specify that here
         headers: {
             "Content-Type": "application/json",
         },
+        // this is the JSON Im passing which bascailly contains the name, priceCents, description and image of the new product
+        // I want to add to my database
         body: JSON.stringify(details),
     });
 
+    // If the response was not sucessful then I throw an error
     if(!response.ok){
         throw new Error("Couldn't save product");
     }
 
+    // othwerise it was successful and I return the response
     return response.json();
 }
 
+// This function does exactly the opposite of createProduct, but instead of passing a Product without an id
+// im only getting the id
 async function deleteProduct(id: number): Promise<Pick<Product, "id" | "name">>{
+    // Again a HTTP request to /api/products
     const response = await fetch("/api/products", {
+        // targeting the delete function
         method: "DELETE",
+        // again passing a JSON
         headers: {
             "Content-Type": "application/json",
         },
+        // This is the JSON, its just the product id since I'm targeting this on /api/products
         body: JSON.stringify(id)
     });
 
+    // if an issue was found then I create an Error object and throw it
     if(!response.ok){
         throw new Error("Couldn't remove product");
     }
+
+    //otherwise no error and I return the product's id and name. Name is mostly for the toast notification
     return response.json();
 }
 
@@ -359,6 +378,8 @@ function ProductDescription(product: DisplayDetailsProp){
 function Notification(prop: NotificationProp & {onDismiss: () => void}){
     return(
     <div className={styles.annouceMessage} onAnimationEnd={prop.onDismiss} role="status">
+        {/*if the boleean is positive then style.positive will be used to display the message resulting in blue text
+        otherwise style.negative will be used for red text*/}
         {prop.positive ? 
         <p className={styles.positive}>{prop.message}</p> : 
         <p className={styles.negative}>{prop.message}</p>
