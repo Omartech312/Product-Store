@@ -167,6 +167,8 @@ export function Card(prop: CardProps){
 
 // Component that allows the addition of new products to the array of element and database
 export function NewProductsArea({onAddProduct}: NewProductsProps){
+    // useStates are react hooks that trigger a rerender when their setter function is used.
+    // In this case Im using them as variables to hold the data of the new products
     const [name, setName] = useState("");
     const [price, setPrice] = useState(0);
     const [description, setDescription] = useState("");
@@ -175,6 +177,14 @@ export function NewProductsArea({onAddProduct}: NewProductsProps){
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+    // A form is used to collect the product's information
+    // once submitted the data is validated, checking if something is missing. If it is, then the user is informed
+    // through a message displayed right below the inputs
+    
+    // Uploading the image is currently work in progress
+
+    // but if no issues are found then it call onAddProduct to integrate this product to the database
+    // and cleans the input areas for new products. Also, if a product is currently being uploaded the submit button gets disabled.
     return(
         <div className={styles.newProdInputsArea} >
             <form
