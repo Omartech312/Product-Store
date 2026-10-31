@@ -74,7 +74,7 @@ async function removeProduct(id: number): Promise<RemovedProduct | undefined>{
     return result.rows[0];
 }
 
-export async function PATCH(request: Request){
+export async function PUT(request: Request){
     const product = await request.json();
 
     if(!product || !Number.isSafeInteger(product.id) ||
@@ -84,8 +84,24 @@ export async function PATCH(request: Request){
     }
 
     try{
-        const result = await pool.query<Product>(`
-            Update products SET name = $1, price_cents = $2, description = $3 WHERE id = $4
+        const result = await updateProduct(product);
+
+        if(!result){
+            return Response.json({error: "Product not found"}, {status: 404});
+        }
+        return Response.json(result);
+    }
+    catch(error){
+        console.log(error);
+    }
+
+    return Response.json({error: "Failed to update product"}, {status:500});
+}
+
+async function updateProduct(information: Product): Promise<Product | undefined>{
+
+    const result = await pool.query<Product>(`
+            Update products SET name = $1, price_cents = $2, description = $3, image = $4 WHERE id = $5
             RETURNING
             id,
             name,
@@ -93,20 +109,12 @@ export async function PATCH(request: Request){
             description,
             image`,
         [   
-            product.name.trim(),
-            product.priceCents,
-            product.description.trim(),
-            product.id
+            information.name.trim(),
+            information.priceCents,
+            information.description.trim(),
+            information.image,
+            information.id
         ]);
 
-        if(!result.rows[0]){
-            return Response.json({error: "Prod not found"}, {status: 404});
-        }
-        return Response.json(result.rows[0]);
-    }
-    catch(error){
-        console.log(error);
-
-        return Response.json({error: "Failed to update product"}, {status:500});
-    }
+    return result.rows[0];
 }

@@ -84,7 +84,7 @@ async function deleteProduct(id: number): Promise<Pick<Product, "id" | "name">>{
 
 async function editProduct(product: Product): Promise<Product>{
     const response = await fetch("/api/products", {
-        method: "PATCH",
+        method: "PUT",
         headers: {
             "Content-Type": "application/json"
         },
@@ -214,7 +214,7 @@ export function NewProductsArea({onAddProduct}: NewProductsProps){
                     setIsSubmitting(false);
                 }
 
-                onAddProduct({
+                await onAddProduct({
                     name:name.trim(),
                     priceCents: Math.round(price * 100),
                     description: description.trim(),
