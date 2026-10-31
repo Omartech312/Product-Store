@@ -399,13 +399,21 @@ function Notification(prop: NotificationProp & {onDismiss: () => void}){
 
 
 function EditProduct(prop: Product){
+    const [name, setName] = useState(prop.name);
+    const [price, setPrice] = useState(prop.priceCents);
+    const [description, setDescription] = useState(prop.description);
+    const [image, setImage] = useState(prop.image);
 
     return(
         <div className={styles.editWindow}>
+            <input value={image} type="file"></input>
             <label>Name:</label>
-            <input type="text"></input><br/>
+            <input value={name} type="text"></input><br/>
             <label>Price:</label>
-            <input type="number"></input>
+            <input value={price} type="number"></input>
+            <label>Description:</label>
+            <input value={description} type="text"></input>
+            <button>Submit</button>
         </div>
     );
 }
