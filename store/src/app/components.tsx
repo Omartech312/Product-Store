@@ -32,6 +32,12 @@ type NotificationProp = {
     positive: boolean;
 }
 
+type EditProductProps = {
+    product: Product;
+    onSave: (product: Product) => Promise<void>;
+    onCancel: () => void;
+};
+
 // function to add a new value to the database, it takes details which is basically a product omitting id, since the database
 // is in charge of adding unique id (technically its just a counter that increments by one with each new product).
 // and this function returns a Product objet unless an error happens
@@ -145,6 +151,7 @@ export function Card(prop: CardProps){
     return(
         <div className={styles.cardBack}>
             <button type="button"
+            className={styles.editButton}
             onClick={() => prop.onEditProduct(prop.id)}>Edit</button>
             <button
                 type="button" className={styles.cardRemoveButton}
@@ -288,6 +295,7 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
     }
 
     async function saveProduct(product: Product){
+        console.log("in");
         const updatedProd = await editProduct(product);
 
         setProducts(prevProducts => prevProducts.map(prod =>
@@ -325,6 +333,7 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
         <>
             <Header onSwapWindow={swapWindow} state={check}></Header>
             {notification && (<Notification key={notification.id} message={notification.message} positive={notification.positive} onDismiss={() => setNotification(null)}></Notification>)}
+            {editProd !== null && (<EditProduct key={editProd.id} product={editProd} onSave={saveProduct} onCancel={() => setEditProd(null)}></EditProduct>)}
             {check ? <div>
             <h2 className={styles.prodSecHead}>Add New Products:</h2>
             <NewProductsArea onAddProduct={addProduct}/>
@@ -398,11 +407,11 @@ function Notification(prop: NotificationProp & {onDismiss: () => void}){
 }
 
 
-function EditProduct(prop: Product){
-    const [name, setName] = useState(prop.name);
-    const [price, setPrice] = useState(prop.priceCents);
-    const [description, setDescription] = useState(prop.description);
-    const [image, setImage] = useState(prop.image);
+function EditProduct({product, onSave, onCancel}: EditProductProps){
+    const [name, setName] = useState(product.name);
+    const [price, setPrice] = useState(product.priceCents);
+    const [description, setDescription] = useState(product.description);
+    const [image, setImage] = useState(product.image);
 
     return(
         <div className={styles.editWindow}>
