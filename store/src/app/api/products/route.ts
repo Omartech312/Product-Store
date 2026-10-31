@@ -75,12 +75,21 @@ async function removeProduct(id: number): Promise<RemovedProduct | undefined>{
 }
 
 export async function PUT(request: Request){
-    const product = await request.json();
+    let product;
 
-    if(!product || !Number.isSafeInteger(product.id) ||
-        !product.name.trim() ||
-        !product.description.trim() || product.priceCents < 0){
-            return Response.json({ error: "Invalid product values"}, { status: 400});
+    try{
+        product = await request.json();
+    }
+    catch{
+        return Response.json({error: "Invalid JSON"}, {status: 400});
+    }
+
+    if(!product || !Number.isSafeInteger(product.id) || product.id <= 0 ||
+    typeof product.name !== "string" || !product.name.trim() ||
+    typeof product.description !== "string" || !product.description.trim() ||
+    !Number.isSafeInteger(product.priceCents) || product.priceCents < 0 ||
+    typeof product.image !== "string" || !product.image.trim()){
+        return Response.json({ error: "Invalid product values"}, { status: 400});
     }
 
     try{
@@ -92,14 +101,12 @@ export async function PUT(request: Request){
         return Response.json(result);
     }
     catch(error){
-        console.log(error);
+        console.error(error);
+        return Response.json({error: "Failed to update product"}, {status: 500});
     }
-
-    return Response.json({error: "Failed to update product"}, {status:500});
 }
 
 async function updateProduct(information: Product): Promise<Product | undefined>{
-
     const result = await pool.query<Product>(`
             Update products SET name = $1, price_cents = $2, description = $3, image = $4 WHERE id = $5
             RETURNING
