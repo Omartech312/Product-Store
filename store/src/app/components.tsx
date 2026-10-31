@@ -415,14 +415,32 @@ function EditProduct({product, onSave, onCancel}: EditProductProps){
 
     return(
         <div className={styles.editWindow}>
-            <input value={image} type="file"></input>
-            <label>Name:</label>
-            <input value={name} type="text"></input><br/>
-            <label>Price:</label>
-            <input value={price} type="number"></input>
-            <label>Description:</label>
-            <input value={description} type="text"></input>
-            <button>Submit</button>
+            <button type="button" onClick={onCancel}>Cancel</button>
+            <form onSubmit={async (event) =>{
+                event.preventDefault();
+
+                try{
+                    await onSave({
+                        ...product,
+                        name: name.trim(),
+                        priceCents: price,
+                        description: description.trim(),
+                        image
+                    });
+                }
+                catch(error){
+                    console.error(error);
+                }
+            }}>
+                <input type="file"></input>
+                <label>Name:</label>
+                <input onChange={(event) => setName(event.currentTarget.value)} value={name} type="text"></input><br/>
+                <label>Price:</label>
+                <input onChange={(event) => setPrice(Number(event.currentTarget.value))} value={price} type="number"></input>
+                <label>Description:</label>
+                <input onChange={(event) => setDescription(event.currentTarget.value)} value={description} type="text"></input>
+            <button type="submit">Submit</button>
+            </form>
         </div>
     );
 }
