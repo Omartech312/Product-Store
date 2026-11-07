@@ -1,11 +1,11 @@
 import type { Product } from '../../products';
 import { pool } from '../../lib/db';
-import { error } from 'console';
+//import { error } from 'console';
 
 // Create New Product Section 
 export async function POST(request: Request){
     // transforms the JSON into an equivalent to a product object (except for id)
-    const details = await request.json();
+    const details = await request.formData();
 
     // awaits for createProduct (the function right below)
     const savedProduct = await createProduct(details);
@@ -14,7 +14,7 @@ export async function POST(request: Request){
     return Response.json(savedProduct, { status: 201}); 
 }
 
-async function createProduct(details: Omit<Product, "id">): Promise<Product>{
+async function createProduct(details: Omit<Product, "id" | "image" & {image:File}>): Promise<Product>{
     // Sending a query to database pool acts as a connection point between my database's port and this code.
     // Here im inserting into products table
     const result = await pool.query<Product>(`

@@ -3,7 +3,7 @@ import styles from "./styles.module.css";
 import { useState, useRef } from 'react';
 import type { Product } from './products';
 
-type NewProductDetails = Omit<Product, "id">;
+type NewProductDetails = Omit<Product, "id" | "image"> & {image: File};
 
 type NewProductsProps = {
     onAddProduct: (details: NewProductDetails) => void;
@@ -42,17 +42,17 @@ type EditProductProps = {
 // is in charge of adding unique id (technically its just a counter that increments by one with each new product).
 // and this function returns a Product objet unless an error happens
 async function createProduct(details: NewProductDetails): Promise<Product>{
+    const formData = new FormData();
+    formData.append("name", details.name);
+    formData.append("priceCents", String(details.priceCents));
+    formData.append("description", details.description);
+    formData.append("image", details.image);
 
     // HTTP request targeting POST function in /api/products
     const response = await fetch("/api/products", {
         method: "POST",
-        // Since Im passing a JSON I specify that here
-        headers: {
-            "Content-Type": "application/json",
-        },
-        // this is the JSON Im passing which bascailly contains the name, priceCents, description and image of the new product
-        // I want to add to my database
-        body: JSON.stringify(details),
+        // Passing a formData instead of JSON
+        body: formData,
     });
 
     // If the response was not sucessful then I throw an error
