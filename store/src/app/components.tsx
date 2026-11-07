@@ -333,7 +333,7 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
         <>
             <Header onSwapWindow={swapWindow} state={check}></Header>
             {notification && (<Notification key={notification.id} message={notification.message} positive={notification.positive} onDismiss={() => setNotification(null)}></Notification>)}
-            {editProd !== null && (<EditProduct key={editProd.id} product={editProd} onSave={saveProduct} onCancel={() => setEditProd(null)}></EditProduct>)}
+            {!check && editProd !== null && (<EditProduct key={editProd.id} product={editProd} onSave={saveProduct} onCancel={() => setEditProd(null)}></EditProduct>)}
             {check ? <div>
             <h2 className={styles.prodSecHead}>Add New Products:</h2>
             <NewProductsArea onAddProduct={addProduct}/>
