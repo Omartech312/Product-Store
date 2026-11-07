@@ -15,7 +15,7 @@ export async function GET(request: Request, {params}: {params: Promise<{id:strin
 
     try{
         const result = await pool.query<ProductImage>(
-            `SELECT image_data. image_mime_type
+            `SELECT image_data, image_mime_type
             FROM public.products
             WHERE id = $1`,
             [productId]);
@@ -26,5 +26,12 @@ export async function GET(request: Request, {params}: {params: Promise<{id:strin
             return Response.json({error: "Image not found"}, {status: 404});
         }
 
+        return new Response(new Uint8Array(image.image_data),
+            {headers: {"Content-Type": image.image_mime_type, "X-Content-Type-Options": "nosniff"}});
+    }
+    catch(error){
+        console.error(error);
+
+        return Response.json({error: "Image fail to load"}, {status:500});
     }
 }
