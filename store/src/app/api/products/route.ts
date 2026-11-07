@@ -4,17 +4,46 @@ import { pool } from '../../lib/db';
 
 // Create New Product Section 
 export async function POST(request: Request){
-    // transforms the JSON into an equivalent to a product object (except for id)
-    const details = await request.formData();
+    const formData = await request.formData();
+
+    //extracting data from the form
+    const name = formData.get("name");
+    const price = formData.get("priceCents");
+    const description = formData.get("description");
+    const image = formData.get("image");
+
+    if(typeof name !== "string" || !name.trim() ||
+    typeof description !== "string" || !description.trim() ||
+    typeof price !== "string" || !price.trim() ||
+    !(image instanceof File) || image.size === 0){
+        return Response.json({error: "Invalid inputs"}, {status: 400});
+    }
+
+    // Checking for invalid numbers after as directly using Number(price) on a NULL might be registered as 0 
+    const priceCents = Number(price);
+
+    if(!Number.isSafeInteger(priceCents) || priceCents < 0){
+        return Response.json({error: "invalid price"}, {status: 400});
+    }
+
+    const imageData = Buffer.from(await image.arrayBuffer());
 
     // awaits for createProduct (the function right below)
-    const savedProduct = await createProduct(details);
+    const savedProduct = await createProduct({name: name.trim(), priceCents: priceCents, description: description.trim(), imageData, imageMimeType: image.type});
 
     // returns the new product and status 201 (Success). Oh and savedProduct does have an id
     return Response.json(savedProduct, { status: 201}); 
 }
 
-async function createProduct(details: Omit<Product, "id" | "image" & {image:File}>): Promise<Product>{
+type NewProductData = {
+    name: string;
+    priceCents: number;
+    description: string;
+    imageData: Buffer;
+    imageMimeType: string;
+};
+
+async function createProduct(details: NewProductData): Promise<Product>{
     // Sending a query to database pool acts as a connection point between my database's port and this code.
     // Here im inserting into products table
     const result = await pool.query<Product>(`
