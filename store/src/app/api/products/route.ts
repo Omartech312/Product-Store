@@ -47,16 +47,17 @@ async function createProduct(details: NewProductData): Promise<Product>{
     // Sending a query to database pool acts as a connection point between my database's port and this code.
     // Here im inserting into products table
     const result = await pool.query<Product>(`
-    INSERT INTO products (name, price_cents, description, image)
-    values($1, $2, $3, $4)
+    INSERT INTO products (name, price_cents, description, image_data, image_mime_type)
+    values($1, $2, $3, $4, $5)
     RETURNING
-    id, name, price_cents AS "priceCents", description, image`,
+    id, name, price_cents AS "priceCents", description, '/api/products/' || id || '/image' AS image`,
     [
         // notice that id is not here. Its because the table product automatically assigns an id which acts as a primary key
         details.name,
         details.priceCents,
         details.description,
-        details.image
+        details.imageData,
+        details.imageMimeType
     ]
     );
 
