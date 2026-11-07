@@ -5,8 +5,9 @@
  - React.js creates reusable UI components
  - Next.js for routing and API connections
  - TypeScript to provide functionality and connect the other parts of the stack
- - CSS & tailwindCSS for style and organization
+ - CSS for style and organization
  - PostgreSQL as the Database
+ - pgAdmin 4 to manually interact with DB
  - Node.js to power the server-side application
  
  Plan to Integrate:
@@ -21,3 +22,4 @@
  - Window containing the product's details
  - Functional Database Connection
  - Filter Products based on name or price
+ - Edit Product's information
