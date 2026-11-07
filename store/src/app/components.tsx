@@ -6,7 +6,7 @@ import type { Product } from './products';
 type NewProductDetails = Omit<Product, "id" | "image"> & {image: File};
 
 type NewProductsProps = {
-    onAddProduct: (details: NewProductDetails) => void;
+    onAddProduct: (details: NewProductDetails) => Promise<void>;
 };
 
 type CardProps = Product & {
@@ -211,6 +211,18 @@ export function NewProductsArea({onAddProduct}: NewProductsProps){
                     const result = await uploadImage(imageFile);
                     console.log("Server got:", result);
                     setMessage("The server received an image");
+
+                    await onAddProduct({
+                        name:name.trim(),
+                        priceCents: Math.round(price * 100),
+                        description: description.trim(),
+                        image: imageFile
+                    });
+                    setName("");
+                    setPrice(0);
+                    setDescription("");
+                    setImageFile(null);
+                    setMessage(`New Product: ${name} was Successfully added!`);
         
                 }
                 catch(error){
@@ -220,19 +232,6 @@ export function NewProductsArea({onAddProduct}: NewProductsProps){
                 finally{
                     setIsSubmitting(false);
                 }
-
-                await onAddProduct({
-                    name:name.trim(),
-                    priceCents: Math.round(price * 100),
-                    description: description.trim(),
-                    image: "/images/yogurt.jpg"
-                });
-                setName("");
-                setPrice(0);
-                setDescription("");
-                setImageFile(null);
-                setMessage(`New Product: ${name} was Successfully added!`);
-
             }}>
             <input value={name} className={styles.newProdInputs} type="text" placeholder="name" onChange={(event) => setName(event.currentTarget.value)}></input><br></br>
             <input min="0" step={0.01} value={price} className={styles.newProdInputs} type="number" placeholder="price" onChange={(event) => setPrice(Number(event.currentTarget.value))}></input><br></br>

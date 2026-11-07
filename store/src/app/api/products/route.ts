@@ -58,8 +58,7 @@ async function createProduct(details: NewProductData): Promise<Product>{
         details.description,
         details.imageData,
         details.imageMimeType
-    ]
-    );
+    ]);
 
     // here I return the first row of my query
     return result.rows[0];
