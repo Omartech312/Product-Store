@@ -5,7 +5,7 @@ import { pool } from "./lib/db";
 
 export default async function Home() {
   const result = await pool.query(`
-  SELECT id, name, price_cents AS "priceCents", description, image
+  SELECT id, name, price_cents AS "priceCents", description, '/api/products/' || id || '/image' AS image
   FROM products
   ORDER BY id `);
   console.log(result.rows);
