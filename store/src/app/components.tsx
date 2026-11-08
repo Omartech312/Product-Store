@@ -208,14 +208,14 @@ export function NewProductsArea({onAddProduct}: NewProductsProps){
                         return;
                     }
 
-                    const result = await uploadImage(imageFile);
-
                     await onAddProduct({
                         name:name.trim(),
                         priceCents: Math.round(price * 100),
                         description: description.trim(),
                         image: imageFile
                     });
+
+                    // Clearing inputs for next products
                     setName("");
                     setPrice(0);
                     setDescription("");
