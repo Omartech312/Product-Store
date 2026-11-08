@@ -88,13 +88,17 @@ async function deleteProduct(id: number): Promise<Pick<Product, "id" | "name">>{
     return response.json();
 }
 
-async function editProduct(product: Product): Promise<Product>{
+async function editProduct(information: NewProductDetails): Promise<Product>{
+    const formData = new FormData();
+    formData.append("name", information.name);
+    formData.append("priceCents", String(information.priceCents));
+    formData.append("description", information.description);
+    formData.append("image", information.image);
+
     const response = await fetch("/api/products", {
         method: "PUT",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(product),
+        // passing formData instead of JSON
+        body: formData,
     })
 
     if(!response.ok){
@@ -198,7 +202,7 @@ export function NewProductsArea({onAddProduct}: NewProductsProps){
             onSubmit={async (event) => {
                 event.preventDefault();
 
-                if (isSubmitting) return;
+                if(isSubmitting) return;
                 setIsSubmitting(true);
 
                 try{
