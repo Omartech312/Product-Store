@@ -209,8 +209,6 @@ export function NewProductsArea({onAddProduct}: NewProductsProps){
                     }
 
                     const result = await uploadImage(imageFile);
-                    console.log("Server got:", result);
-                    setMessage("The server received an image");
 
                     await onAddProduct({
                         name:name.trim(),
@@ -274,6 +272,7 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
         }
         catch(error){
             console.error(error);
+            throw error;
         }
     }
 
