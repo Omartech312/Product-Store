@@ -418,34 +418,36 @@ function EditProduct({product, onSave, onCancel}: EditProductProps){
 
     return(
         <div className={styles.editWindow}>
-            <button className={styles.editButton} type="button" onClick={onCancel}>Cancel</button>
-            <form onSubmit={async (event) =>{
-                event.preventDefault();
+            <div className={styles.editParent}>
+                <button className={styles.editButtonExit} type="button" onClick={onCancel}>X</button>
+                <form onSubmit={async (event) => {
+                    event.preventDefault();
 
-                try{
-                    await onSave({
-                        ...product,
-                        name: name.trim(),
-                        priceCents: price,
-                        description: description.trim(),
-                        image: imageFile
-                    });
-                }
-                catch(error){
-                    console.error(error);
-                }
-            }}>
-                <label>Name:</label><br/>
-                <input onChange={(event) => setName(event.currentTarget.value)} value={name} type="text"></input><br />
-                <label>Price:</label><br/>
-                <input onChange={(event) => setPrice(Number(event.currentTarget.value))} value={price} type="number"></input><br />
-                <label>Description:</label><br/>
-                <input onChange={(event) => setDescription(event.currentTarget.value)} value={description} type="text"></input><br/>
-                <img className={styles.editImage} src={product.image} alt={product.name} />
-                <label>Image:</label>
-                <input className={styles.newProdInputs} type="file" accept="image/*" onChange={(event) => setImageFile(event.currentTarget.files?.[0] ?? null)}></input><br></br>
-            <button className={styles.editButton} type="submit">Submit</button>
-            </form>
+                    try{
+                        await onSave({
+                            ...product,
+                            name: name.trim(),
+                            priceCents: price,
+                            description: description.trim(),
+                            image: imageFile
+                        });
+                    }
+                    catch(error){
+                        console.error(error);
+                    }
+                }}>
+                    <label className={styles.editLabel}>Name:</label><br/>
+                    <input className={styles.editInput} onChange={(event) => setName(event.currentTarget.value)} value={name} type="text"></input><br />
+                    <label className={styles.editLabel}>Price:</label><br/>
+                    <input className={styles.editInput} onChange={(event) => setPrice(Number(event.currentTarget.value))} value={price} type="number"></input><br />
+                    <label className={styles.editLabel}>Description:</label><br/>
+                    <input className={styles.editInputDes} onChange={(event) => setDescription(event.currentTarget.value)} value={description} type="text"></input><br/>
+                    <img className={styles.editImage} src={product.image} alt={product.name} />
+                    <label className={styles.editLabel}>Image:</label>
+                    <input className={styles.newProdInputs} type="file" accept="image/*" onChange={(event) => setImageFile(event.currentTarget.files?.[0] ?? null)}></input><br></br>
+                <button className={styles.editButton} type="submit">Submit</button>
+                </form>
+            </div>
         </div>
     );
 }

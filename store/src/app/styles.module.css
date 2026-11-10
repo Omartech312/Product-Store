@@ -239,14 +239,48 @@
     position: fixed;
     width: 90%;
     left: 5%;
+    top: 20%
 
+}
+
+.editParent{
+    position: relative;
+    margin: 10px;
+}
+
+.editLabel{
+    color: #26C1F4;
+    text-shadow: 1px 1px 1px black;
+}
+
+.editInput{
+    background-color: grey;
+    margin: 3px;
+    padding: 3px;
+    border-radius: 5px;
+}
+
+.editInputDes{
+    background-color: grey;
+    margin: 3px;
+    padding: 3px;
+    border-radius: 5px;
+    width: 60%;
+    text-align: center;
 }
 
 .editButton{
     cursor: pointer;
 }
 
+.editButtonExit{
+    color: red;
+    position: absolute;
+    top: -2%;
+    right: 0%;
+}
+
 .editImage{
     height: 100px;
-    align-self: center;
+    text-align: center;
 }
