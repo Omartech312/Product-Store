@@ -1,5 +1,6 @@
 import type { Product } from '../../products';
 import { pool } from '../../lib/db';
+import { error } from 'console';
 //import { error } from 'console';
 
 // Create New Product Section 
@@ -104,25 +105,32 @@ async function removeProduct(id: number): Promise<RemovedProduct | undefined>{
 }
 
 export async function PUT(request: Request){
-    let product;
+    const formData = await request.formData();
+
+    //extracting data from the form
+    const idValue = formData.get("id");
+    const name = formData.get("name");
+    const priceValue = formData.get("priceCents");
+    const description = formData.get("description");
+    const image = formData.get("image");
+
+    if(!idValue || typeof idValue !== "string" ||
+        !name || name !== "string" || !name.trim() ||
+        !description || typeof description !== "string" || !description.trim() ||
+        !priceValue || typeof priceValue !== "string" || !priceValue.trim()){
+        return Response.json({ error: "Invalid Inputs"}, {status: 400});
+    }
+
+    const id = Number(idValue);
+    const price = Number(priceValue);
+    
+    if(!Number.isSafeInteger(id) || id <= 0 ||
+    !Number.isSafeInteger(price) || price <= 0){
+        return Response.json({error: "Invalid Id or Price"}, {status:400});
+    }
 
     try{
-        product = await request.json();
-    }
-    catch{
-        return Response.json({error: "Invalid JSON"}, {status: 400});
-    }
-
-    if(!product || !Number.isSafeInteger(product.id) || product.id <= 0 ||
-    typeof product.name !== "string" || !product.name.trim() ||
-    typeof product.description !== "string" || !product.description.trim() ||
-    !Number.isSafeInteger(product.priceCents) || product.priceCents < 0 ||
-    typeof product.image !== "string" || !product.image.trim()){
-        return Response.json({ error: "Invalid product values"}, { status: 400});
-    }
-
-    try{
-        const result = await updateProduct(product);
+        const result = await updateProduct({id, name, price, description, image});
 
         if(!result){
             return Response.json({error: "Product not found"}, {status: 404});

@@ -5,6 +5,8 @@ import type { Product } from './products';
 
 type NewProductDetails = Omit<Product, "id" | "image"> & {image: File};
 
+type EditProductDetails = Omit<Product, "image"> & {image: File | null};
+
 type NewProductsProps = {
     onAddProduct: (details: NewProductDetails) => Promise<void>;
 };
@@ -34,7 +36,7 @@ type NotificationProp = {
 
 type EditProductProps = {
     product: Product;
-    onSave: (product: NewProductDetails) => Promise<void>;
+    onSave: (product: EditProductDetails) => Promise<void>;
     onCancel: () => void;
 };
 
@@ -88,12 +90,13 @@ async function deleteProduct(id: number): Promise<Pick<Product, "id" | "name">>{
     return response.json();
 }
 
-async function editProduct(information: NewProductDetails): Promise<Product>{
+async function editProduct(information: EditProductDetails): Promise<Product>{
     const formData = new FormData();
+    formData.append("id", String(information.id));
     formData.append("name", information.name);
     formData.append("priceCents", String(information.priceCents));
     formData.append("description", information.description);
-    formData.append("image", information.image);
+    if(information.image) formData.append("image", information.image);
 
     const response = await fetch("/api/products", {
         method: "PUT",
@@ -296,7 +299,7 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
         }
     }
 
-    async function saveProduct(product: NewProductDetails){
+    async function saveProduct(product: EditProductDetails){
         const updatedProd = await editProduct(product);
 
         setProducts(prevProducts => prevProducts.map(prod =>
@@ -441,7 +444,7 @@ function EditProduct({product, onSave, onCancel}: EditProductProps){
                 <input onChange={(event) => setDescription(event.currentTarget.value)} value={description} type="text"></input>
                 <img className={styles.editImage} src={product.image} alt={product.name} />
                 <label>Image:</label>
-                <input className={styles.newProdInputs} type="file" accept="image/*" onChange={(event) => setImage(event.currentTarget.files?.[0] ?? null)}></input>
+                <input className={styles.newProdInputs} type="file" accept="image/*" onChange={(event) => setImageFile(event.currentTarget.files?.[0] ?? null)}></input>
             <button type="submit">Submit</button>
             </form>
         </div>
