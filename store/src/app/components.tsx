@@ -418,7 +418,7 @@ function EditProduct({product, onSave, onCancel}: EditProductProps){
 
     return(
         <div className={styles.editWindow}>
-            <button type="button" onClick={onCancel}>Cancel</button>
+            <button className={styles.editButton} type="button" onClick={onCancel}>Cancel</button>
             <form onSubmit={async (event) =>{
                 event.preventDefault();
 
@@ -435,17 +435,16 @@ function EditProduct({product, onSave, onCancel}: EditProductProps){
                     console.error(error);
                 }
             }}>
-                <input type="file"></input>
-                <label>Name:</label>
-                <input onChange={(event) => setName(event.currentTarget.value)} value={name} type="text"></input><br/>
-                <label>Price:</label>
-                <input onChange={(event) => setPrice(Number(event.currentTarget.value))} value={price} type="number"></input>
-                <label>Description:</label>
-                <input onChange={(event) => setDescription(event.currentTarget.value)} value={description} type="text"></input>
+                <label>Name:</label><br/>
+                <input onChange={(event) => setName(event.currentTarget.value)} value={name} type="text"></input><br />
+                <label>Price:</label><br/>
+                <input onChange={(event) => setPrice(Number(event.currentTarget.value))} value={price} type="number"></input><br />
+                <label>Description:</label><br/>
+                <input onChange={(event) => setDescription(event.currentTarget.value)} value={description} type="text"></input><br/>
                 <img className={styles.editImage} src={product.image} alt={product.name} />
                 <label>Image:</label>
-                <input className={styles.newProdInputs} type="file" accept="image/*" onChange={(event) => setImageFile(event.currentTarget.files?.[0] ?? null)}></input>
-            <button type="submit">Submit</button>
+                <input className={styles.newProdInputs} type="file" accept="image/*" onChange={(event) => setImageFile(event.currentTarget.files?.[0] ?? null)}></input><br></br>
+            <button className={styles.editButton} type="submit">Submit</button>
             </form>
         </div>
     );

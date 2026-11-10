@@ -161,18 +161,19 @@ export async function PUT(request: Request){
 
 async function updateProduct(information: UpdateProductData): Promise<Product | undefined>{
     const result = await pool.query<Product>(`
-            Update products SET name = $1, price_cents = $2, description = $3, image = $4 WHERE id = $5
+            Update products SET name = $1, price_cents = $2, description = $3, image_data = COALESCE($4, image_data), image_mime_type = COALESCE($5, image_mime_type) WHERE id = $6
             RETURNING
             id,
             name,
             price_cents AS "priceCents",
             description,
-            image`,
+            '/api/products/' || id || '/image' AS image`,
         [   
             information.name.trim(),
             information.priceCents,
             information.description.trim(),
-            information.image,
+            information.imageData,
+            information.imageMimeType,
             information.id
         ]);
 
