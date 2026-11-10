@@ -115,7 +115,7 @@ export async function PUT(request: Request){
     const image = formData.get("image");
 
     if(!idValue || typeof idValue !== "string" ||
-        !name || name !== "string" || !name.trim() ||
+        !name || typeof name !== "string" || !name.trim() ||
         !description || typeof description !== "string" || !description.trim() ||
         !priceValue || typeof priceValue !== "string" || !priceValue.trim()){
         return Response.json({ error: "Invalid Inputs"}, {status: 400});
@@ -123,14 +123,14 @@ export async function PUT(request: Request){
 
     const id = Number(idValue);
     const price = Number(priceValue);
-    
+
     if(!Number.isSafeInteger(id) || id <= 0 ||
-    !Number.isSafeInteger(price) || price <= 0){
+    !Number.isSafeInteger(price) || price < 0){
         return Response.json({error: "Invalid Id or Price"}, {status:400});
     }
 
     try{
-        const result = await updateProduct({id, name, price, description, image});
+        const result = await updateProduct({id, name, priceCents: price, description, image});
 
         if(!result){
             return Response.json({error: "Product not found"}, {status: 404});
