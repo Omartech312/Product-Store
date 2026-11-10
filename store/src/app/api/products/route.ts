@@ -104,6 +104,11 @@ async function removeProduct(id: number): Promise<RemovedProduct | undefined>{
     return result.rows[0];
 }
 
+type UpdateProductData = Omit<Product, "image"> & {
+    imageData: Buffer | null;
+    imageMimeType: string | null;
+};
+
 export async function PUT(request: Request){
     const formData = await request.formData();
 
@@ -129,8 +134,19 @@ export async function PUT(request: Request){
         return Response.json({error: "Invalid Id or Price"}, {status:400});
     }
 
+    // if the image exist, this ensures its a file and there is actual data inside
+    if(image !== null && (!(image instanceof File) || image.size === 0)){
+        return Response.json({error: "Invalid Image"}, {status: 400});
+    }
+
     try{
-        const result = await updateProduct({id, name, priceCents: price, description, image});
+        // if the image is an sintance of a File when we wait for buffer otherwise just store null
+        const imageData = image instanceof File ? Buffer.from(await image.arrayBuffer()) : null;
+
+        // same as above, but now storing the type of image or null
+        const imageMimeType = image instanceof File ? image.type : null;
+
+        const result = await updateProduct({id, name, priceCents: price, description, imageData, imageMimeType});
 
         if(!result){
             return Response.json({error: "Product not found"}, {status: 404});
@@ -143,7 +159,7 @@ export async function PUT(request: Request){
     }
 }
 
-async function updateProduct(information: Product): Promise<Product | undefined>{
+async function updateProduct(information: UpdateProductData): Promise<Product | undefined>{
     const result = await pool.query<Product>(`
             Update products SET name = $1, price_cents = $2, description = $3, image = $4 WHERE id = $5
             RETURNING
