@@ -17,9 +17,16 @@
  - Prisma
 
 ## Objectives
+
+### E-Commerce Core
  - Display a list of products
  - Add/Remove Products from the list
  - Window containing the product's details
  - Functional Database Connection
  - Filter Products based on name or price
  - Edit Product's information
+
+### Users/Authorization
+ - Create Accounts
+ - Allow actions based on permission level
+ - Store Accounts in Database
