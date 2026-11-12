@@ -10,8 +10,8 @@
  - pgAdmin 4 to manually interact with DB
  - Node.js to power the server-side application
  
- Plan to Integrate:
- - Auth.js
+ Integrating:
+ - Better Auth
  
  Possible additions:
  - Prisma
