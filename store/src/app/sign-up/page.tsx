@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { authClient } from "../lib/auth-client";
 
 export default function SignUp(){
     // values needed to sig up
@@ -9,12 +10,44 @@ export default function SignUp(){
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
 
+    //prevents another submit whenever one is being process
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    async function handleSubmit(event: React.FormEvent<HTMLFormElement>){
+        event.preventDefault();
+
+        if(isSubmitting) return;
+
+        setIsSubmitting(true);
+        setMessage("");
+
+        try{
+            // attempts to signup through authClient signup method, which returns an error if something goes wrong
+            const {error} = await authClient.signUp.email({name: name.trim(), email: email.trim(), password});
+
+            // if an error was detected then it lets the user know there was an issue and exits
+            if(error){
+                setMessage(error.message ?? "Could not create an account");
+                return;
+            }
+
+            //otherwise it was a sucess
+            setPassword("");
+            setMessage("Account created Successfully");
+        }
+        catch{
+            setMessage("Couldn't Connect, please try again");
+        }
+        finally{
+            setIsSubmitting(false);
+        }
+    }
 
     return(
         <main>
             <h1>Create an account</h1>
 
-            <form>
+            <form onSubmit={handleSubmit}>
                 <label htmlFor="name">Name: </label>
                 <input id="name" autoComplete="name" value={name} onChange={(event) => setName(event.currentTarget.value)} required></input>
 
@@ -24,8 +57,10 @@ export default function SignUp(){
                 <label htmlFor="password"></label>
                 <input id="password" type="password" autoComplete="new-password" minLength={10} maxLength={100} value={password} onChange={(event) => setPassword(event.currentTarget.value)} required></input>
 
-                <button>Submit</button>
+                <button type="submit" disabled={isSubmitting}>{isSubmitting ? "Creating account..." : "Sign up"}</button>
             </form>
+
+            <p role="status">{message}</p>
         </main>
     );
 }
