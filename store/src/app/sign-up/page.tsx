@@ -18,6 +18,11 @@ export default function SignUp(){
 
         if(isSubmitting) return;
 
+        if(!name.trim()){
+            setMessage("You must provide a valid name");
+            return;
+        }
+
         setIsSubmitting(true);
         setMessage("");
 
@@ -51,11 +56,11 @@ export default function SignUp(){
                 <label htmlFor="name">Name: </label>
                 <input id="name" autoComplete="name" value={name} onChange={(event) => setName(event.currentTarget.value)} required></input>
 
-                <label htmlFor="email">Email:</label>
+                <label htmlFor="email">Email: </label>
                 <input id="email" type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.currentTarget.value)} required></input>
 
-                <label htmlFor="password"></label>
-                <input id="password" type="password" autoComplete="new-password" minLength={10} maxLength={100} value={password} onChange={(event) => setPassword(event.currentTarget.value)} required></input>
+                <label htmlFor="password">Password: </label>
+                <input id="password" type="password" autoComplete="new-password" minLength={8} maxLength={100} value={password} onChange={(event) => setPassword(event.currentTarget.value)} required></input>
 
                 <button type="submit" disabled={isSubmitting}>{isSubmitting ? "Creating account..." : "Sign up"}</button>
             </form>
