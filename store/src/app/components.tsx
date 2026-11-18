@@ -2,6 +2,7 @@
 import styles from "./styles.module.css";
 import { useState } from 'react';
 import type { Product } from './products';
+import Link from "next/link";
 
 type NewProductDetails = Omit<Product, "id" | "image"> & {image: File};
 
@@ -374,6 +375,8 @@ export function Header(prop: SwapindowProp){
                 {prop.state ? 
                 <button onClick={prop.onSwapWindow} className={styles.navButtons}>List of Products</button> :
                 <button onClick={prop.onSwapWindow} className={styles.navButtons}>Add new Product</button>}
+                <Link className={styles.navButtons} href="/sign-in">Sign in</Link>
+                <Link className={styles.navButtons} href="/sign-up">Sign up</Link>
             </div>
         </div>
     );
