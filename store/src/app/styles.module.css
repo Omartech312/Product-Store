@@ -284,3 +284,11 @@
     height: 100px;
     text-align: center;
 }
+
+.signDiv{
+    width: 80VW;
+    height: 70VH;
+    background-color: gray;
+    left: 10VW;
+    border-radius: 10px;
+}

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { authClient } from "../lib/auth-client";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import styles from "../styles.module.css"
 
 export default function SignUp(){
     // values needed to sig up
@@ -58,18 +59,20 @@ export default function SignUp(){
             <Link href="/">Back to products</Link>
             <h1>Create an account</h1>
 
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="name">Name: </label>
-                <input id="name" autoComplete="name" value={name} onChange={(event) => setName(event.currentTarget.value)} required></input>
+            <div className={styles.signDiv}>
+                <form onSubmit={handleSubmit}>
+                    <label htmlFor="name">Name: </label>
+                    <input id="name" autoComplete="name" value={name} onChange={(event) => setName(event.currentTarget.value)} required></input><br></br>
 
-                <label htmlFor="email">Email: </label>
-                <input id="email" type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.currentTarget.value)} required></input>
+                    <label htmlFor="email">Email: </label>
+                    <input id="email" type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.currentTarget.value)} required></input><br></br>
 
-                <label htmlFor="password">Password: </label>
-                <input id="password" type="password" autoComplete="new-password" minLength={8} maxLength={128} value={password} onChange={(event) => setPassword(event.currentTarget.value)} required></input>
+                    <label htmlFor="password">Password: </label>
+                    <input id="password" type="password" autoComplete="new-password" minLength={8} maxLength={128} value={password} onChange={(event) => setPassword(event.currentTarget.value)} required></input><br></br>
 
-                <button type="submit" disabled={isSubmitting}>{isSubmitting ? "Creating account..." : "Sign up"}</button>
-            </form>
+                    <button type="submit" disabled={isSubmitting}>{isSubmitting ? "Creating account..." : "Sign up"}</button>
+                </form>
+            </div>
 
             <p role="status">{message}</p>
         </main>
