@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { authClient } from "../lib/auth-client";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function SignUp(){
     // values needed to sig up
@@ -12,6 +14,8 @@ export default function SignUp(){
 
     //prevents another submit whenever one is being process
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const router = useRouter();
 
     async function handleSubmit(event: React.FormEvent<HTMLFormElement>){
         event.preventDefault();
@@ -45,11 +49,13 @@ export default function SignUp(){
         }
         finally{
             setIsSubmitting(false);
+            router.push("/");
         }
     }
 
     return(
         <main>
+            <Link href="/">Back to products</Link>
             <h1>Create an account</h1>
 
             <form onSubmit={handleSubmit}>
