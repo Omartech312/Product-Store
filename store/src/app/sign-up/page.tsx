@@ -56,16 +56,22 @@ export default function SignUp(){
     }
 
     async function SignInUser(event: React.FormEvent<HTMLFormElement>){
-        
+        event.preventDefault();
+
+        if(isSubmitting) return;
+
+        setIsSubmitting(true);
+        setMessage("");
     }
 
     return(
         <main>
             <Link href="/">Back to products</Link>
-            <h1>Create an account</h1>
+            <h1>Authentication</h1>
 
             {signUp ? 
             <div className={styles.signDiv}>
+                <h2>Create Account</h2>
                 <form onSubmit={SignUpUser}>
                     <label htmlFor="name">Name: </label>
                     <input id="name" autoComplete="name" value={name} onChange={(event) => setName(event.currentTarget.value)} required></input><br></br>
@@ -81,8 +87,15 @@ export default function SignUp(){
             </div>
             :
             <div className={styles.signInDiv}>
+                <h2>Sign into Account</h2>
                 <form onSubmit={SignInUser}>
+                    <label htmlFor="email">Email: </label>
+                    <input id="email" type="email" autoComplete="email" value={name} onChange={(event) => setName(event.currentTarget.value)} required></input>
 
+                    <label htmlFor="password">Password: </label>
+                    <input id="password" type="password" autoComplete="password" value={password} onChange={(event) => setPassword(event.currentTarget.value)} required></input>
+
+                    <button type="submit" disabled={isSubmitting}>{isSubmitting ? "Logging in..." : "Sign in"}</button>
                 </form>
             </div>
             }
