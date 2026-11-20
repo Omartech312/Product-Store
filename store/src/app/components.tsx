@@ -375,8 +375,7 @@ export function Header(prop: SwapindowProp){
                 {prop.state ? 
                 <button onClick={prop.onSwapWindow} className={styles.navButtons}>List of Products</button> :
                 <button onClick={prop.onSwapWindow} className={styles.navButtons}>Add new Product</button>}
-                <Link className={styles.navButtons} href="/sign-in">Sign in</Link>
-                <Link className={styles.navButtons} href="/sign-up">Sign up</Link>
+                <Link className={styles.navButtons} href="/sign-up">Sign up / Log in</Link>
             </div>
         </div>
     );

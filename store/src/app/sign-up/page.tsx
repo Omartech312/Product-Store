@@ -12,13 +12,14 @@ export default function SignUp(){
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
+    const [signUp, setSignUp] = useState(true);
 
     //prevents another submit whenever one is being process
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const router = useRouter();
 
-    async function handleSubmit(event: React.FormEvent<HTMLFormElement>){
+    async function SignUpUser(event: React.FormEvent<HTMLFormElement>){
         event.preventDefault();
 
         if(isSubmitting) return;
@@ -54,13 +55,18 @@ export default function SignUp(){
         }
     }
 
+    async function SignInUser(event: React.FormEvent<HTMLFormElement>){
+        
+    }
+
     return(
         <main>
             <Link href="/">Back to products</Link>
             <h1>Create an account</h1>
 
+            {signUp ? 
             <div className={styles.signDiv}>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={SignUpUser}>
                     <label htmlFor="name">Name: </label>
                     <input id="name" autoComplete="name" value={name} onChange={(event) => setName(event.currentTarget.value)} required></input><br></br>
 
@@ -73,8 +79,16 @@ export default function SignUp(){
                     <button type="submit" disabled={isSubmitting}>{isSubmitting ? "Creating account..." : "Sign up"}</button>
                 </form>
             </div>
+            :
+            <div className={styles.signInDiv}>
+                <form onSubmit={SignInUser}>
+
+                </form>
+            </div>
+            }
 
             <p role="status">{message}</p>
         </main>
+        
     );
 }
