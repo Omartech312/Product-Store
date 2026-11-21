@@ -62,6 +62,24 @@ export default function SignUp(){
 
         setIsSubmitting(true);
         setMessage("");
+
+        try{
+            const {error} = await authClient.signIn.email({email: email.trim(), password});
+
+            if(error){
+                setMessage(error.message ?? "Could not Log into account, please ensure your email and password are correct");
+                return;
+            }
+
+            setPassword("");
+            router.push("/");
+        }
+        catch{
+            setMessage("Couldn't Login, please try again");
+        }
+        finally{
+            setIsSubmitting(false);
+        }
     }
 
     return(
@@ -89,14 +107,13 @@ export default function SignUp(){
                 <div className={styles.signPanel} inert={signUp}>
                     <h2>Sign into Account</h2>
                     <form onSubmit={SignInUser}>
-                        <label htmlFor="email">Email: </label>
-                        <input id="email" type="email" autoComplete="email" value={name} onChange={(event) => setName(event.currentTarget.value)} required></input>
+                        <label htmlFor="signin-email">Email: </label>
+                        <input id="signin-email" type="email" autoComplete="email" value={name} onChange={(event) => setEmail(event.currentTarget.value)} required></input>
 
                         <label htmlFor="password">Password: </label>
                         <input id="password" type="password" autoComplete="password" value={password} onChange={(event) => setPassword(event.currentTarget.value)} required></input>
 
                         <button type="submit" disabled={isSubmitting}>{isSubmitting ? "Logging in..." : "Sign in"}</button>
-                        <p>Checking</p>
                     </form>
                 </div>
                     <button type="button" className={`${styles.toggleButton} ${signUp ? styles.toggleRight : ""}`} onClick={() => setSignUp(!signUp)} disabled={isSubmitting}> {signUp ? "Log in" : "Sign up"}</button>
