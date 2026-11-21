@@ -45,13 +45,13 @@ export default function SignUp(){
             //otherwise it was a sucess
             setPassword("");
             setMessage("Account created Successfully");
+            router.push("/");
         }
         catch{
             setMessage("Couldn't Connect, please try again");
         }
         finally{
             setIsSubmitting(false);
-            router.push("/");
         }
     }
 
@@ -68,9 +68,10 @@ export default function SignUp(){
         <main>
             <Link href="/">Back to products</Link>
             <h1>Authentication</h1>
+            <button onClick={() => setSignUp(!signUp)}>{signUp ? "Log in" : "Sign In"}</button>
 
             {signUp ? 
-            <div className={styles.signDiv}>
+            <div className={signUp ? styles.signDiv : styles.signDiv}>
                 <h2>Create Account</h2>
                 <form onSubmit={SignUpUser}>
                     <label htmlFor="name">Name: </label>
@@ -86,7 +87,7 @@ export default function SignUp(){
                 </form>
             </div>
             :
-            <div className={styles.signInDiv}>
+            <div className={signUp ? styles.signInDiv : styles.signInDiv}>
                 <h2>Sign into Account</h2>
                 <form onSubmit={SignInUser}>
                     <label htmlFor="email">Email: </label>
