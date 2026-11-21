@@ -108,10 +108,10 @@ export default function SignUp(){
                     <h2>Sign into Account</h2>
                     <form onSubmit={SignInUser}>
                         <label htmlFor="signin-email">Email: </label>
-                        <input id="signin-email" type="email" autoComplete="email" value={name} onChange={(event) => setEmail(event.currentTarget.value)} required></input>
+                        <input id="signin-email" type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.currentTarget.value)} required></input>
 
-                        <label htmlFor="password">Password: </label>
-                        <input id="password" type="password" autoComplete="password" value={password} onChange={(event) => setPassword(event.currentTarget.value)} required></input>
+                        <label htmlFor="signin-password">Password: </label>
+                        <input id="signin-password" type="password" autoComplete="password" value={password} onChange={(event) => setPassword(event.currentTarget.value)} required></input>
 
                         <button type="submit" disabled={isSubmitting}>{isSubmitting ? "Logging in..." : "Sign in"}</button>
                     </form>
