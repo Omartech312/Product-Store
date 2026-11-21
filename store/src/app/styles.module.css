@@ -317,3 +317,26 @@
     border: 1px solid gray;
     border-radius: 6px;
 }
+
+.toggleButton {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    z-index: 1;
+
+    background: skyblue;
+    color: #123047;
+    border: none;
+    padding: 20px;
+    font-size: 1.5rem;
+    cursor: pointer;
+
+    transform: translateX(0);
+    transition: transform 600ms ease-in-out;
+}
+
+.toggleRight {
+    transform: translateX(100%);
+}

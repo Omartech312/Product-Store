@@ -99,16 +99,7 @@ export default function SignUp(){
                         <p>Checking</p>
                     </form>
                 </div>
-                    <button
-                    type="button"
-                    className={`${styles.toggleButton} ${
-                        signUp ? styles.toggleRight : ""
-                    }`}
-                    onClick={() => setSignUp(!signUp)}
-                    disabled={isSubmitting}
-                >
-                    {signUp ? "Log in" : "Sign up"}
-                </button>
+                    <button type="button" className={`${styles.toggleButton} ${signUp ? styles.toggleRight : ""}`} onClick={() => setSignUp(!signUp)} disabled={isSubmitting}> {signUp ? "Log in" : "Sign up"}</button>
             </div>
 
             <p role="status">{message}</p>
