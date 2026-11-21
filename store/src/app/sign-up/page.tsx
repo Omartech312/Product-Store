@@ -68,38 +68,48 @@ export default function SignUp(){
         <main>
             <Link href="/">Back to products</Link>
             <h1>Authentication</h1>
-            <button onClick={() => setSignUp(!signUp)}>{signUp ? "Log in" : "Sign In"}</button>
 
-            {signUp ? 
-            <div className={signUp ? styles.signDiv : styles.signDiv}>
-                <h2>Create Account</h2>
-                <form onSubmit={SignUpUser}>
-                    <label htmlFor="name">Name: </label>
-                    <input id="name" autoComplete="name" value={name} onChange={(event) => setName(event.currentTarget.value)} required></input><br></br>
+            <div className={styles.signWindow}>
+                <div className={styles.signPanel} inert={!signUp}>
+                    <h2>Create Account</h2>
+                    <form onSubmit={SignUpUser}>
+                        <label htmlFor="name">Name: </label>
+                        <input id="name" autoComplete="name" value={name} onChange={(event) => setName(event.currentTarget.value)} required></input>
 
-                    <label htmlFor="email">Email: </label>
-                    <input id="email" type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.currentTarget.value)} required></input><br></br>
+                        <label htmlFor="email">Email: </label>
+                        <input id="email" type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.currentTarget.value)} required></input>
 
-                    <label htmlFor="password">Password: </label>
-                    <input id="password" type="password" autoComplete="new-password" minLength={8} maxLength={128} value={password} onChange={(event) => setPassword(event.currentTarget.value)} required></input><br></br>
+                        <label htmlFor="password">Password: </label>
+                        <input id="password" type="password" autoComplete="new-password" minLength={8} maxLength={128} value={password} onChange={(event) => setPassword(event.currentTarget.value)} required></input>
 
-                    <button type="submit" disabled={isSubmitting}>{isSubmitting ? "Creating account..." : "Sign up"}</button>
-                </form>
+                        <button type="submit" disabled={isSubmitting}>{isSubmitting ? "Creating account..." : "Sign up"}</button>
+                    </form>
+                </div>
+
+                <div className={styles.signPanel} inert={signUp}>
+                    <h2>Sign into Account</h2>
+                    <form onSubmit={SignInUser}>
+                        <label htmlFor="email">Email: </label>
+                        <input id="email" type="email" autoComplete="email" value={name} onChange={(event) => setName(event.currentTarget.value)} required></input>
+
+                        <label htmlFor="password">Password: </label>
+                        <input id="password" type="password" autoComplete="password" value={password} onChange={(event) => setPassword(event.currentTarget.value)} required></input>
+
+                        <button type="submit" disabled={isSubmitting}>{isSubmitting ? "Logging in..." : "Sign in"}</button>
+                        <p>Checking</p>
+                    </form>
+                </div>
+                    <button
+                    type="button"
+                    className={`${styles.toggleButton} ${
+                        signUp ? styles.toggleRight : ""
+                    }`}
+                    onClick={() => setSignUp(!signUp)}
+                    disabled={isSubmitting}
+                >
+                    {signUp ? "Log in" : "Sign up"}
+                </button>
             </div>
-            :
-            <div className={signUp ? styles.signInDiv : styles.signInDiv}>
-                <h2>Sign into Account</h2>
-                <form onSubmit={SignInUser}>
-                    <label htmlFor="email">Email: </label>
-                    <input id="email" type="email" autoComplete="email" value={name} onChange={(event) => setName(event.currentTarget.value)} required></input>
-
-                    <label htmlFor="password">Password: </label>
-                    <input id="password" type="password" autoComplete="password" value={password} onChange={(event) => setPassword(event.currentTarget.value)} required></input>
-
-                    <button type="submit" disabled={isSubmitting}>{isSubmitting ? "Logging in..." : "Sign in"}</button>
-                </form>
-            </div>
-            }
 
             <p role="status">{message}</p>
         </main>

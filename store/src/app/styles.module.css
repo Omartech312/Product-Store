@@ -290,10 +290,30 @@
     text-align: center;
 }
 
-.signDiv{
-    width: 80VW;
-    height: 70VH;
-    background-color: gray;
-    left: 10VW;
-    border-radius: 10px;
+.signWindow{
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 90%;
+    max-width: 950px;
+    margin: 30px auto;
+    background: white;
+    color: black;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.signPanel {
+    min-width: 0;
+    padding: 35px;
+}
+
+.signPanel input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid gray;
+    border-radius: 6px;
 }
