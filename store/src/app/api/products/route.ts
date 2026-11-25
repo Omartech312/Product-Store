@@ -1,10 +1,21 @@
 import type { Product } from '../../products';
 import { pool } from '../../lib/db';
-import { error } from 'console';
+import { auth } from "../../lib/auth";
 //import { error } from 'console';
 
 // Create New Product Section 
 export async function POST(request: Request){
+    const session = await auth.api.getSession({headers: request.headers});
+
+    if(!session){
+        return Response.json({error: "Please sign in"}, {status: 401});
+    }
+
+    if(session.user.role !== "admin"){
+        return Response.json({error: "Only admins can add products"}, {status: 403});
+    }
+
+
     const formData = await request.formData();
 
     //extracting data from the form
@@ -70,6 +81,15 @@ async function createProduct(details: NewProductData): Promise<Product>{
 type RemovedProduct = Pick<Product, "id" | "name">;
 
 export async function DELETE(request: Request){
+    const session = await auth.api.getSession({headers: request.headers});
+
+    if(!session){
+        return Response.json({error: "Please sign in"}, {status: 401});
+    }
+
+    if(session.user.role !== "admin"){
+        return Response.json({error: "Only admins can delete products"}, {status: 403});
+    }
     // transforms the JSON from the request into an object with an id
     const id = await request.json();
 
@@ -110,6 +130,15 @@ type UpdateProductData = Omit<Product, "image"> & {
 };
 
 export async function PUT(request: Request){
+        const session = await auth.api.getSession({headers: request.headers});
+
+    if(!session){
+        return Response.json({error: "Please sign in"}, {status: 401});
+    }
+
+    if(session.user.role !== "admin"){
+        return Response.json({error: "Only admins can modify products"}, {status: 403});
+    }
     const formData = await request.formData();
 
     //extracting data from the form
