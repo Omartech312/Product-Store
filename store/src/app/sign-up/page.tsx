@@ -84,7 +84,7 @@ export default function SignUp(){
 
     return(
         <main>
-            <Link href="/">Back to products</Link>
+            <Link className={styles.mainMenuButton} href="/">Return to products</Link>
             <h1 className={styles.signPageTitle}>{signUp ? "Sign Up" : "Log In"}</h1>
 
             <div className={`${styles.signWindow} ${signUp ? styles.signupActive : ""}`}>

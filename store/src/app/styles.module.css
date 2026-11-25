@@ -406,3 +406,8 @@
 .signPanel[inert] input {
     visibility: hidden;
 }
+
+.mainMenuButton{
+    font-size: 1.2em;
+    color: rgb(240, 229, 163);
+}
