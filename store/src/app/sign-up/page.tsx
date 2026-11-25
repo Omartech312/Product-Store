@@ -119,7 +119,7 @@ export default function SignUp(){
                 <button type="button" className={`${styles.toggleButton} ${signUp ? styles.toggleRight : ""}`} onClick={() => {setSignUp(!signUp); setMessage(""); setPassword("");}} disabled={isSubmitting}> {signUp ? "Log in" : "Sign up"}</button>
             </div>
 
-            <p role="status">{message}</p>
+            <p className={styles.signErrorMessage} role="status">{message}</p>
         </main>
         
     );

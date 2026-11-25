@@ -301,8 +301,9 @@
     background: white;
     color: #172b3a;
     border-radius: 15px;
+    border: 3px double gold;
     overflow: hidden;
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 12px 35px rgba(87, 241, 195, 0.15);
 }
 
 .signWindow::before{
@@ -410,4 +411,11 @@
 .mainMenuButton{
     font-size: 1.2em;
     color: rgb(240, 229, 163);
+}
+
+.signErrorMessage{
+    text-align: center;
+    font-size: x-large;
+    color: red;
+    font-weight: bolder;
 }
