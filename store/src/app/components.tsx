@@ -3,6 +3,7 @@ import styles from "./styles.module.css";
 import { useState } from 'react';
 import type { Product } from './products';
 import Link from "next/link";
+import { authClient } from "./lib/auth-client";
 
 type NewProductDetails = Omit<Product, "id" | "image"> & {image: File};
 
@@ -155,6 +156,9 @@ export function Card(prop: CardProps){
     function swapDisplay(){
         setDisplay(prevDisplay => !prevDisplay);
     }
+
+    const { data: session, isPending } = authClient.useSession();
+    const isAdmin = !isPending && session?.user.role === "admin";
 
     return(
         <div className={styles.cardBack}>
