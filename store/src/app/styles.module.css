@@ -302,10 +302,11 @@
     color: #172b3a;
     border-radius: 15px;
     overflow: hidden;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
 }
 
 .signWindow::before{
-        content: "";
+    content: "";
     position: absolute;
     top: 0;
     left: 0;
@@ -327,7 +328,7 @@
     position: relative;
     z-index: 1;
     min-width: 0;
-    padding: 35px;
+    padding: clamp(14px, 3vw, 30px);
     background: transparent;
     color: #172b3a;
     transition: color 600ms ease-in-out;
@@ -338,10 +339,21 @@
 }
 
 .signPanel input {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    margin-top: 6px;
+    margin-bottom: 18px;
+
+    border: 1px solid black;
+    border-radius: 6px;
     background: transparent;
     color: inherit;
-    border-color: currentColor;
-    transition: color 600ms ease-in-out, border-color 600ms ease-in-out;
+    font-size: 1rem;
+
+    transition: color 600ms ease-in-out;
 }
 
 .toggleButton{
@@ -363,9 +375,34 @@
 
 .signPageTitle{
     text-align: center;
+    font-size: clamp(2rem, 1rem + 3vw, 4rem);
+    font-weight: 700;
+    line-height: 1.15;
+    margin: 30px 0;
+    text-shadow: 1px 1px 5px skyblue;
 }
 
-.toggleButton:focus-visible {
-    outline: 3px solid white;
-    outline-offset: -6px;
+.signPanel input:focus-visible {
+    outline: 3px solid #176baf;
+    outline-offset: 3px;
+}
+
+.subButtons{
+    cursor: pointer;
+}
+
+.subButtons:hover{
+    color: rgb(246, 36, 33);
+    font-size: 1.1em;
+    text-shadow: 1px 1px 3px black;
+}
+
+.signPanel h2 {
+    font-size: clamp(1.25rem, 1rem + 1vw, 2rem);
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.signPanel[inert] input {
+    visibility: hidden;
 }

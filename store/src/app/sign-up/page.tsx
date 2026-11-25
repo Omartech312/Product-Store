@@ -91,16 +91,16 @@ export default function SignUp(){
                 <div className={styles.signPanel} inert={!signUp}>
                     <h2>Create Account</h2>
                     <form onSubmit={SignUpUser}>
-                        <label htmlFor="name">Name: </label>
+                        <label htmlFor="name">Name </label>
                         <input id="name" autoComplete="name" value={name} onChange={(event) => setName(event.currentTarget.value)} required></input>
 
-                        <label htmlFor="email">Email: </label>
+                        <label htmlFor="email">Email </label>
                         <input id="email" type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.currentTarget.value)} required></input>
 
-                        <label htmlFor="password">Password: </label>
+                        <label htmlFor="password">Password </label>
                         <input id="password" type="password" autoComplete="new-password" minLength={8} maxLength={128} value={password} onChange={(event) => setPassword(event.currentTarget.value)} required></input>
 
-                        <button type="submit" disabled={isSubmitting}>{isSubmitting ? "Creating account..." : "Sign up"}</button>
+                        <button className={styles.subButtons} type="submit" disabled={isSubmitting}>{isSubmitting ? "Creating account..." : "Sign up"}</button>
                     </form>
                 </div>
                 <button type="button" className={`${styles.toggleButton} ${signUp ? styles.toggleRight : ""}`} onClick={() => setSignUp(!signUp)} disabled={isSubmitting}> {signUp ? "Log in" : "Sign up"}</button>
@@ -108,13 +108,13 @@ export default function SignUp(){
                 <div className={styles.signPanel} inert={signUp}>
                     <h2>Sign into Account</h2>
                     <form onSubmit={SignInUser}>
-                        <label htmlFor="signin-email">Email: </label>
+                        <label htmlFor="signin-email">Email </label>
                         <input id="signin-email" type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.currentTarget.value)} required></input>
 
-                        <label htmlFor="signin-password">Password: </label>
+                        <label htmlFor="signin-password">Password </label>
                         <input id="signin-password" type="password" autoComplete="password" value={password} onChange={(event) => setPassword(event.currentTarget.value)} required></input>
 
-                        <button type="submit" disabled={isSubmitting}>{isSubmitting ? "Logging in..." : "Sign in"}</button>
+                        <button className={styles.subButtons} type="submit" disabled={isSubmitting}>{isSubmitting ? "Logging in..." : "Sign in"}</button>
                     </form>
                 </div>
                 <button type="button" className={`${styles.toggleButton} ${signUp ? styles.toggleRight : ""}`} onClick={() => setSignUp(!signUp)} disabled={isSubmitting}> {signUp ? "Log in" : "Sign up"}</button>
