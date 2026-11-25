@@ -103,7 +103,6 @@ export default function SignUp(){
                         <button className={styles.subButtons} type="submit" disabled={isSubmitting}>{isSubmitting ? "Creating account..." : "Sign up"}</button>
                     </form>
                 </div>
-                <button type="button" className={`${styles.toggleButton} ${signUp ? styles.toggleRight : ""}`} onClick={() => setSignUp(!signUp)} disabled={isSubmitting}> {signUp ? "Log in" : "Sign up"}</button>
 
                 <div className={styles.signPanel} inert={signUp}>
                     <h2>Sign into Account</h2>
@@ -112,12 +111,12 @@ export default function SignUp(){
                         <input id="signin-email" type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.currentTarget.value)} required></input>
 
                         <label htmlFor="signin-password">Password </label>
-                        <input id="signin-password" type="password" autoComplete="password" value={password} onChange={(event) => setPassword(event.currentTarget.value)} required></input>
+                        <input id="signin-password" type="password" autoComplete="current-password" value={password} onChange={(event) => setPassword(event.currentTarget.value)} required></input>
 
                         <button className={styles.subButtons} type="submit" disabled={isSubmitting}>{isSubmitting ? "Logging in..." : "Sign in"}</button>
                     </form>
                 </div>
-                <button type="button" className={`${styles.toggleButton} ${signUp ? styles.toggleRight : ""}`} onClick={() => setSignUp(!signUp)} disabled={isSubmitting}> {signUp ? "Log in" : "Sign up"}</button>
+                <button type="button" className={`${styles.toggleButton} ${signUp ? styles.toggleRight : ""}`} onClick={() => {setSignUp(!signUp); setMessage(""); setPassword("");}} disabled={isSubmitting}> {signUp ? "Log in" : "Sign up"}</button>
             </div>
 
             <p role="status">{message}</p>
