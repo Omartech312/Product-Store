@@ -85,9 +85,9 @@ export default function SignUp(){
     return(
         <main>
             <Link href="/">Back to products</Link>
-            <h1>Authentication</h1>
+            <h1 className={styles.signPageTitle}>{signUp ? "Sign Up" : "Log In"}</h1>
 
-            <div className={styles.signWindow}>
+            <div className={`${styles.signWindow} ${signUp ? styles.signupActive : ""}`}>
                 <div className={styles.signPanel} inert={!signUp}>
                     <h2>Create Account</h2>
                     <form onSubmit={SignUpUser}>
@@ -103,6 +103,7 @@ export default function SignUp(){
                         <button type="submit" disabled={isSubmitting}>{isSubmitting ? "Creating account..." : "Sign up"}</button>
                     </form>
                 </div>
+                <button type="button" className={`${styles.toggleButton} ${signUp ? styles.toggleRight : ""}`} onClick={() => setSignUp(!signUp)} disabled={isSubmitting}> {signUp ? "Log in" : "Sign up"}</button>
 
                 <div className={styles.signPanel} inert={signUp}>
                     <h2>Sign into Account</h2>
@@ -116,7 +117,7 @@ export default function SignUp(){
                         <button type="submit" disabled={isSubmitting}>{isSubmitting ? "Logging in..." : "Sign in"}</button>
                     </form>
                 </div>
-                    <button type="button" className={`${styles.toggleButton} ${signUp ? styles.toggleRight : ""}`} onClick={() => setSignUp(!signUp)} disabled={isSubmitting}> {signUp ? "Log in" : "Sign up"}</button>
+                <button type="button" className={`${styles.toggleButton} ${signUp ? styles.toggleRight : ""}`} onClick={() => setSignUp(!signUp)} disabled={isSubmitting}> {signUp ? "Log in" : "Sign up"}</button>
             </div>
 
             <p role="status">{message}</p>

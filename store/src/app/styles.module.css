@@ -292,51 +292,80 @@
 
 .signWindow{
     position: relative;
+    isolation: isolate;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     width: 90%;
     max-width: 950px;
     margin: 30px auto;
     background: white;
-    color: black;
+    color: #172b3a;
     border-radius: 15px;
     overflow: hidden;
 }
 
-.signPanel {
-    min-width: 0;
-    padding: 35px;
-}
-
-.signPanel input {
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid gray;
-    border-radius: 6px;
-}
-
-.toggleButton {
+.signWindow::before{
+        content: "";
     position: absolute;
     top: 0;
     left: 0;
     width: 50%;
     height: 100%;
-    z-index: 1;
+    z-index: 0;
+    pointer-events: none;
 
-    background: skyblue;
-    color: #123047;
-    border: none;
-    padding: 20px;
-    font-size: 1.5rem;
-    cursor: pointer;
-
+    background: #176baf;
     transform: translateX(0);
     transition: transform 600ms ease-in-out;
 }
 
+.signupActive::before{
+    transform: translateX(100%);
+}
+
+.signPanel{
+    position: relative;
+    z-index: 1;
+    min-width: 0;
+    padding: 35px;
+    background: transparent;
+    color: #172b3a;
+    transition: color 600ms ease-in-out;
+}
+
+.signPanel[inert]{
+    color: white;
+}
+
+.signPanel input {
+    background: transparent;
+    color: inherit;
+    border-color: currentColor;
+    transition: color 600ms ease-in-out, border-color 600ms ease-in-out;
+}
+
+.toggleButton{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 100%;
+    z-index: 2;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transform: translateX(0);
+}
+
 .toggleRight {
     transform: translateX(100%);
+}
+
+.signPageTitle{
+    text-align: center;
+}
+
+.toggleButton:focus-visible {
+    outline: 3px solid white;
+    outline-offset: -6px;
 }
