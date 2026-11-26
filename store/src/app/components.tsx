@@ -162,14 +162,11 @@ export function Card(prop: CardProps){
 
     return(
         <div className={styles.cardBack}>
-            <button type="button"
-            className={styles.editButton}
-            onClick={() => prop.onEditProduct(prop.id)}>Edit</button>
-            <button
-                type="button" className={styles.cardRemoveButton}
-                onClick={() => prop.onRemoveProduct(prop.id)}
-                aria-label={`Remove ${prop.name}`}
-            >X</button>
+            {isAdmin ? <div>
+            <button type="button" className={styles.editButton} onClick={() => prop.onEditProduct(prop.id)}>Edit</button>
+            <button type="button" className={styles.cardRemoveButton} onClick={() => prop.onRemoveProduct(prop.id)} aria-label={`Remove ${prop.name}`}>X</button>
+            </div> : <div></div>
+            }
             <img className={styles.cardImage} src={prop.image}></img>
             <p className={styles.prodHeader}>{prop.name}</p>
             <p>${prop.priceCents / 100}</p>
