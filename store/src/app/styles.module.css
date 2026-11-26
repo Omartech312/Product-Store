@@ -127,14 +127,44 @@
 }
 
 .navButtons{
-    color: black;
-    padding: 5px;
-    text-shadow: 1px 1px skyblue;
-    margin-right: 10px;
-    font-size: clamp(1rem, 0.9rem + 0.5vw, 1.25rem);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 45px;
+    padding: 10px 16px;
+    
+    border-radius: 8px;
+    color: var(--primary);
+    font-size: .95rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+
+    transition: background-color 150ms ease, color 150ms ease;
 }
+
 .navButtons:hover{
-    text-decoration: underline;
+    background-color: var(--primary-soft);
+    color: var(--primary-hover);
+}
+
+.navButtons:focus-visible{
+    outline: 3px solid var(--primary);
+}
+
+@media (max-width: 600px){
+    .pageHeader{
+        flex-wrap: wrap;
+    }
+
+    .pageHeaderNav{
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .navButtons{
+        flex: 1;
+    }
 }
 
 .productWindow{
