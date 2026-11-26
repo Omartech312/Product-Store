@@ -91,35 +91,39 @@
 }
 
 .pageHeader{
-    width: 100vw;
-    height: 20vh;
-    background-color: rgb(178, 178, 178);
-    margin-bottom: 20px;
-    position: relative;
+    width: 100%;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px clamp(16px, 4vw, 48px);
+    margin-bottom: 28px;
+    background-color: var(--surface);
+    border-bottom: 2px solid var(--gold);
 }
 
 .storeImage{
-    position: absolute;
-    height: 60%;
-    top: 3.5%;
-    left: 2%;
-    border-radius: 200px;
-    opacity: .8;
+    width: 45px;
+    height: 45px;
+    object-fit: cover;
+    border-radius: 50%;
+    flex-shrink: 0;
 }
 
 .storeName{
-    text-align: center;
-    font-size: clamp(2rem, 1rem + 5vw, 4rem);
-    text-shadow: 2px 2px #3f3f3f;
-    color: #ECD444;
+    margin: 0;
+    font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--gold-text);
 }
 
 .pageHeaderNav{
-    position: absolute;
-    width: 100%;
-    height: auto;
-    background-color: rgb(247, 246, 246);
-    bottom: 0px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-left: auto;
 }
 
 .navButtons{

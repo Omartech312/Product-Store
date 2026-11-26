@@ -335,6 +335,9 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
         setProducts(copy);
     }
 
+    const { data: session, isPending } = authClient.useSession();
+    const isAdmin = !isPending && session?.user.role === "admin";
+
     return(
         <>
             <Header onSwapWindow={swapWindow} state={check}></Header>
@@ -342,7 +345,7 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
             {!check && editProd !== null && (<EditProduct key={editProd.id} product={editProd} onSave={saveProduct} onCancel={() => setEditProd(null)}></EditProduct>)}
             {check ? <div>
             <h2 className={styles.prodSecHead}>Add New Products:</h2>
-            <NewProductsArea onAddProduct={addProduct}/>
+            {isAdmin ? <NewProductsArea onAddProduct={addProduct}/> : <div></div>}
             </div> 
             : 
             <div>
