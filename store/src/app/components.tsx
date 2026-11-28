@@ -352,11 +352,11 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
             <h2 className={styles.prodSecHead}>Products:</h2>
                 <div className={styles.filteringSection}>
                     Sort by:
-                    <button onClick={sortByName} className={`${styles.filterButton} bg-white`}>Name</button>
-                    <button onClick={sortByPrice} className={`${styles.filterButton} bg-white`}>Price</button>
+                    <button onClick={sortByName} className={`${styles.filterButton}`}>Name</button>
+                    <button onClick={sortByPrice} className={`${styles.filterButton}`}>Price</button>
                     <br></br>
-                    <label>Search by name:</label>
-                    <input value={nameFilter} type="text" placeholder="Yogurt" onChange={(event) => filterByName(event.currentTarget)}></input>
+                    <label htmlFor="prod-search">Search by name:</label>
+                    <input id="prod-search" value={nameFilter} type="text" placeholder="Yogurt" onChange={(event) => filterByName(event.currentTarget)}></input>
                 </div>
                 <div className={styles.productDiv}>
                     {displayProducts}
