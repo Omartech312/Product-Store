@@ -345,7 +345,7 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
             {!check && editProd !== null && (<EditProduct key={editProd.id} product={editProd} onSave={saveProduct} onCancel={() => setEditProd(null)}></EditProduct>)}
             {check ? <div>
             <h2 className={styles.prodSecHead}>Add New Products:</h2>
-            {isAdmin ? <NewProductsArea onAddProduct={addProduct}/> : <div></div>}
+            <NewProductsArea onAddProduct={addProduct}/>
             </div> 
             : 
             <div>
@@ -372,16 +372,16 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
     */
 export function Header(prop: SwapindowProp){
     return(
-        <div className={styles.pageHeader}>
+        <header className={styles.pageHeader}>
             <img className={styles.storeImage} src='./images/missing.avif'></img>
             <h1 className={styles.storeName}>Store Name</h1>
-            <div className={styles.pageHeaderNav}>
+            <nav className={styles.pageHeaderNav}>
                 {prop.state ? 
                 <button onClick={prop.onSwapWindow} className={styles.navButtons}>List of Products</button> :
                 <button onClick={prop.onSwapWindow} className={styles.navButtons}>Add new Product</button>}
                 <Link className={styles.navButtons} href="/sign-up">Sign up / Log in</Link>
-            </div>
-        </div>
+            </nav>
+        </header>
     );
 }
 

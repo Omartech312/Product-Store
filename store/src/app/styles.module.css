@@ -150,6 +150,7 @@
 
 .navButtons:focus-visible{
     outline: 3px solid var(--primary);
+    outline-offset: 3px;
 }
 
 @media (max-width: 600px){
@@ -444,7 +445,7 @@
 
 .mainMenuButton{
     font-size: 1.2em;
-    color: rgb(240, 229, 163);
+    color: var(--primary);
 }
 
 .signErrorMessage{
