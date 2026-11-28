@@ -178,6 +178,59 @@
     }
 }
 
+.filteringSection{
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto 16px;
+    padding: 0 24px;
+}
+
+.filteringSection label{
+    display: inline-block;
+    margin-right: 12px;
+}
+
+.filteringSection input{
+    width: 260px;
+    max-width: 100%;
+    min-height: 42px;
+    margin-top: 12px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background-color: var(--surface);
+    color: var(--foreground);
+    font-size: 0.95rem;
+}
+
+.filteringSection input::placeholder{
+    color: #64748b;
+}
+
+.filteringSection input:focus-visible, .filterButton:focus-visible{
+    outline: 2px solid var(--primary);
+    outline-offset: 3px;
+}
+
+.filterButton{
+    cursor: pointer;
+    min-height: 40px;
+    padding: 8px 16px;
+    margin: 4px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background-color: var(--surface);
+    color: var(--primary);
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: background-color 150ms ease, border-color 150ms ease;
+}
+
+.filterButton:hover{
+    background-color: var(--primary-soft);
+    border-color: var(--primary);
+}
+
 .productWindow{
     position: fixed;
     height: 80vh;
@@ -243,59 +296,6 @@
     top: 18%;
     width: 50%;
     text-align: center;
-}
-
-.filteringSection{
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto 16px;
-    padding: 0 24px;
-}
-
-.filteringSection label{
-    display: inline-block;
-    margin-right: 12px;
-}
-
-.filteringSection input{
-    width: 260px;
-    max-width: 100%;
-    min-height: 42px;
-    margin-top: 12px;
-    padding: 10px 12px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    background-color: var(--surface);
-    color: var(--foreground);
-    font-size: 0.95rem;
-}
-
-.filteringSection input::placeholder{
-    color: #64748b;
-}
-
-.filteringSection input:focus-visible, .filterButton:focus-visible{
-    outline: 2px solid var(--primary);
-    outline-offset: 3px;
-}
-
-.filterButton{
-    cursor: pointer;
-    min-height: 40px;
-    padding: 8px 16px;
-    margin: 4px;
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    background-color: var(--surface);
-    color: var(--primary);
-    font-size: 0.95rem;
-    font-weight: 600;
-    transition: background-color 150ms ease, border-color 150ms ease;
-}
-
-.filterButton:hover{
-    background-color: var(--primary-soft);
-    border-color: var(--primary);
 }
 
 .annouceMessage{
