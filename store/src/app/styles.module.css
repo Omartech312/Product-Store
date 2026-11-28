@@ -1,39 +1,49 @@
 
 .cardBack{
-    background-color: rgb(255, 255, 255, .95);
-    border-radius: 5px;
-    color: black;
-    box-shadow: 2px 2px 5px skyblue;
     text-align: center;
+    padding: 16px;
+    background-color: var(--surface);
+    color: var(--foreground);
+    border: 1px solid var(--border);
     position: relative;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(23, 43, 58, 0.05);
 }
 
 .cardImage{
-    padding: 10px;
-    align-self: center;
-    border-radius: 50px;
+    display: block;
+    width: 100%;
+    height: 190px;
+    margin: 16px auto;
+    object-fit: contain;
+    border-radius: 8px;
 }
 
 .productDiv{
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 24px;
-    padding: 15px;
-    border: 1px solid white;
+
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px 24px 40px;
 }
 
 .prodSecHead{
-    position: relative;
     text-align: center;
-    font-weight: bolder;
-    font-size: 1.8em;
-    color: #26C1F4;
-    text-shadow: 1px 1px 2px white;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--foreground);
+    margin: 24px 0;
+    left: 50px;
 }
 
 .prodHeader{
-    font-weight: bold;
-    color: rgb(22, 178, 240);
+    margin: 8px 0;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--primary);
 }
 
 .cardInput{

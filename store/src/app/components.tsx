@@ -373,7 +373,7 @@ export function ProductManagement({ products: databaseProducts, }: ProductManage
 export function Header(prop: SwapindowProp){
     return(
         <header className={styles.pageHeader}>
-            <img className={styles.storeImage} src='./images/missing.avif'></img>
+            <img alt="" className={styles.storeImage} src='/images/missing.avif'></img>
             <h1 className={styles.storeName}>Store Name</h1>
             <nav className={styles.pageHeaderNav}>
                 {prop.state ? 
